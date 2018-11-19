@@ -11,7 +11,7 @@
 
 	
 	
-	
+	void InsertarAgujero();
 	void MagiaNegra();
 	
 	
