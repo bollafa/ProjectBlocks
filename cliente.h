@@ -7,7 +7,7 @@
     // Los prototipos proporcionados pueden ser modificados en sus argumentos y en el tipo de dato devuelto
 
     void listarClientes ( setClientes& variosClientes );
-    void addCliente(setClientes varios);
+    
 
 // hola chati
 #endif // UTIL_H_INCLUDED
