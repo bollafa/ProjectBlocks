@@ -12,11 +12,16 @@
 
 	
 	
+
+	void InsertarAgujero();
+	void MagiaNegra();
+
 	
 	void MagiaNegra(); // esto es basura
 //piche verga joto pendejo trmardito weon malparido
 
 // jasjas
+
 	
 	
 	
