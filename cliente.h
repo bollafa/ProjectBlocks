@@ -1,4 +1,4 @@
-#ifndef CLIENTE_H_INCLUDED
+﻿#ifndef CLIENTE_H_INCLUDED
 #define CLIENTE_H_INCLUDED
 
     # include "estructura.h"
@@ -7,5 +7,7 @@
     // Los prototipos proporcionados pueden ser modificados en sus argumentos y en el tipo de dato devuelto
 
     void listarClientes ( setClientes& variosClientes );
-    void addCliente(setClientes& varios);
+    void addCliente(setClientes varios);
+
+// hola chati
 #endif // UTIL_H_INCLUDED
