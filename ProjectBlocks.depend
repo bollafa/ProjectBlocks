@@ -1,0 +1,30 @@
+# depslib dependency file v1.0
+1530869476 source:c:\users\mghermida18_esei\desktop\projectblocks\main.cpp
+	<iostream>
+	<cstdlib>
+	"string.h"
+	"estructura.h"
+	"cliente.h"
+	"util.h"
+
+1530869206 c:\users\mghermida18_esei\desktop\projectblocks\estructura.h
+
+1542623861 c:\users\mghermida18_esei\desktop\projectblocks\cliente.h
+	"estructura.h"
+
+1530869228 c:\users\mghermida18_esei\desktop\projectblocks\util.h
+	<iostream>
+	<cstdlib>
+
+1530869190 source:c:\users\mghermida18_esei\desktop\projectblocks\util.cpp
+	<iostream>
+	<cstdlib>
+	"util.h"
+
+1542623721 source:c:\users\mghermida18_esei\desktop\projectblocks\cliente.cpp
+	<iostream>
+	<cstdlib>
+	"string.h"
+	"cliente.h"
+	"util.h"
+
