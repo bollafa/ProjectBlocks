@@ -9,6 +9,15 @@
     void listarClientes ( setClientes& variosClientes );
     void addCliente(setClientes varios);
 
+	
+	
+	
+	void MagiaNegra();
+	
+	
+	
+	
+	
 
 //esto es una prueba
 
