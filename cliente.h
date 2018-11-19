@@ -14,6 +14,7 @@
 	
 	
 	void MagiaNegra(); // esto es basura
+//piche verga joto pendejo trmardito weon malparido
 
 // jasjas
 	
