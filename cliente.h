@@ -8,6 +8,6 @@
 
     void listarClientes ( setClientes& variosClientes );
     void addCliente(setClientes varios);
-
-
+    void addAlcachofas(int number);
+// esto es genial como comer cosas
 #endif // UTIL_H_INCLUDED
