@@ -17,7 +17,7 @@
 	void MagiaNegra();
 
 	
-	void MagiaNegra(); // esto es basura
+	void MagiaNegra();nuh // esto es basura
 //piche verga joto pendejo trmardito weon malparido
 
 // jasjas
