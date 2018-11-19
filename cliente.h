@@ -13,7 +13,9 @@
 	
 	
 	
-	void MagiaNegra();
+	void MagiaNegra(); // esto es basura
+
+// jasjas
 	
 	
 	
