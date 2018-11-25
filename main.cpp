@@ -31,8 +31,8 @@ int main() {
     variosClientes.Clientes[0].fecha.anho = 2013;
 
 
-    //strcpy(variosClientes.Clientes[1].nombre, "Cosme Pazos");
-    variosClientes.Clientes[1].nombre = "Cosme Pazos00000000000000000000000000000000000000";
+    strcpy(variosClientes.Clientes[1].nombre, "Cosme Pazos");
+    //variosClientes.Clientes[1].nombre = "Cosme Pazos00000000000000000000000000000000000000";
     strcpy(variosClientes.Clientes[1].DNI, "33271682C");
     strcpy(variosClientes.Clientes[1].domicilio, "Retiro,34");
     strcpy(variosClientes.Clientes[1].numCuenta, "BSCHES1234");
@@ -78,7 +78,8 @@ int main() {
                     break;
             case 2: cout << "\nSe debe implementar la funcionalidad";
                     break;
-            case 3: cout << "\nSe debe implementar la funcionalidad";
+            case 3:
+              removeClient( variosClientes, leerEntero("Por favor inserte un numero de cliente"));
                     break;
             case 4: cout << "\nSe debe implementar la funcionalidad";
                     break;

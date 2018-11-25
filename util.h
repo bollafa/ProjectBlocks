@@ -11,7 +11,7 @@
     # define MAXCAD 200 //Dimension maxima de las cadenas de caracteres
 
     using namespace std;
-vg
+
     void leerCadena(char mensaje[ ], char cad []);
     int leerEntero(char mensaje []);
 

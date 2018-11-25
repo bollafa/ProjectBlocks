@@ -38,3 +38,27 @@ void listarClientes( setClientes& variosClientes )  //Listar todas los Clientes
         }
     }
 }
+void swap(Cliente& lhs, Cliente& rhs)
+{
+  Cliente backup = lhs;
+  lhs = rhs;
+  rhs = backup;
+}
+void removeClient( setClientes& clientes, int id)
+{
+  if( !(id < clientes.numClientes) )
+    {
+      cout << "Por favor inserte una ID valida!\n";
+      return;
+    }
+    for(int i = clientes.numClientes - 2; i >= id; i--)
+    {
+      cout << "i: " << i << '\n';
+      cout << clientes.Clientes[clientes.numClientes - 1].nombre << " << " << clientes.Clientes[i].nombre << '\n';
+      swap(clientes.Clientes[clientes.numClientes - 1],clientes.Clientes[i]);
+      cout << clientes.Clientes[clientes.numClientes - 1].nombre << " << " << clientes.Clientes[i].nombre << '\n';
+    }
+
+    clientes.numClientes--;
+
+}
