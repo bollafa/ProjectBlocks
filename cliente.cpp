@@ -68,8 +68,8 @@ bool isDigit(const char& c)
 }
 bool isDNICorrect(const char DNI[MAXDNI])
 {
-  static const unsigned char LetterLookUp[23] = { 'T', 	'R', 	'W', 	'A', 	'G', 	'M', 	'Y', 	'F', 	'P', 	'D', 	'X',
-                                                  'B', 'N', 	'J', 	'Z', 	'S', 	'Q', 	'V', 	'H', 	'L', 	'C', 	'K',
+  static const unsigned char LetterLookUp[23] = { 'T', 'R', 'W', 'A', 'G', 'M', 'Y', 'F', 'P', 'D', 'X',
+                                                  'B', 'N', 'J', 'Z', 'S', 'Q', 'V', 'H', 'L', 'C', 'K',
                                                   'E'};
   if(strlen(DNI) != 9)
     return false;
