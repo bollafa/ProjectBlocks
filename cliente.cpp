@@ -97,3 +97,24 @@ void ListarDNIErroneos(const setClientes& clientes)
         }
     }
 }
+
+void BuscarPorDNI(const setClientes& clientes, const char DNI[MAXDNI])
+{
+  for(unsigned int i = 0; i < clientes.numClientes; i++)
+    {
+      if(strcmp(clientes.Clientes[i].DNI,DNI) == 0)
+        mostrarCliente(clientes.Clientes[i]);
+    }
+
+}
+
+void BuscarPorNCuenta(const setClientes& clientes, const char numCuenta[MAXNUMCUENTA])
+{
+  for(unsigned int i = 0; i < clientes.numClientes; i++)
+    {
+      if(strcmp(clientes.Clientes[i].numCuenta,numCuenta))
+         mostrarCliente(clientes.Clientes[i]);
+
+    }
+}
+     

@@ -11,5 +11,6 @@ void addCliente(setClientes varios);
 
 void removeClient(setClientes& clientes, int id);
 void ListarDNIErroneos(const setClientes& clientes);
-
+void BuscarPorDNI(const setClientes& clientes, const char DNI[MAXDNI]);
+void BuscarPorNCuenta(const setClientes& clientes, const char numCuenta[MAXDNI]);
 #endif // UTIL_H_INCLUDED

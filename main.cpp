@@ -73,17 +73,28 @@ int main() {
     cout << "\nBienvenido a GesBANCO--Sistema gestor de entidades bancarias.\n";
     do {
         opcion = menu();
+        
         switch ( opcion ) {
             case 1: listarClientes ( variosClientes );
                     break;
             case 2: cout << "\nSe debe implementar la funcionalidad";
                     break;
             case 3:
-              removeClient( variosClientes, leerEntero("Por favor inserte un numero de cliente"));
+              removeClient( variosClientes, leerEntero("Por favor inserte un numero de cliente: "));
                     break;
-            case 4: cout << "\nSe debe implementar la funcionalidad";
+            case 4:
+              {
+                char NCuenta[MAXNUMCUENTA];
+                leerCadena("Inserte número de cuenta: ", NCuenta);
+                BuscarPorNCuenta( variosClientes, NCuenta);
+                  }
                     break;
-            case 5: cout << "\nSe debe implementar la funcionalidad";
+        case 5: {
+          char DNI[MAXDNI];
+          leerCadena("Inserte DNI: ", DNI);
+          BuscarPorDNI( variosClientes, DNI);
+
+        }
                     break;
             case 6: cout << "\nSe debe implementar la funcionalidad";
                     break;
