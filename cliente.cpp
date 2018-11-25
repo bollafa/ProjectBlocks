@@ -62,3 +62,38 @@ void removeClient( setClientes& clientes, int id)
     clientes.numClientes--;
 
 }
+bool isDigit(const char& c)
+{
+  return (c >= '0') && (c <= '9');
+}
+bool isDNICorrect(const char DNI[MAXDNI])
+{
+  static const unsigned char LetterLookUp[23] = { 'T', 	'R', 	'W', 	'A', 	'G', 	'M', 	'Y', 	'F', 	'P', 	'D', 	'X',
+                                                  'B', 'N', 	'J', 	'Z', 	'S', 	'Q', 	'V', 	'H', 	'L', 	'C', 	'K',
+                                                  'E'};
+  if(strlen(DNI) != 9)
+    return false;
+
+  // hay que comprobar que todos los caracters del dni menos el ultimo sean digitos, pues dnis como '00000000T'
+  // son válidos y dnis como '0   0  0T' deberian ser invalidos pero atoi(DNI) daria el mismo resultado := 0.
+  for(unsigned int i = 0; i < MAXDNI-2; i++)
+    if(!isDigit(DNI[i]))
+      return false;
+
+  int iDNI = atoi(DNI);
+
+  return LetterLookUp[iDNI % 23] == DNI[MAXDNI-2];
+}
+void ListarDNIErroneos(const setClientes& clientes)
+{
+  cout << " Usuarios con DNI's erroneos: \n";
+  if(clientes.numClientes == 0)
+    cout << "No existen clientes que comprobar!\n";
+  for(unsigned int i = 0; i < clientes.numClientes; i++)
+    {
+      if(!isDNICorrect(clientes.Clientes[i].DNI))
+        {
+          mostrarCliente(clientes.Clientes[i]);
+        }
+    }
+}

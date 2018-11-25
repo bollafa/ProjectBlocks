@@ -10,5 +10,6 @@ void listarClientes ( setClientes& variosClientes );
 void addCliente(setClientes varios);
 
 void removeClient(setClientes& clientes, int id);
+void ListarDNIErroneos(const setClientes& clientes);
 
 #endif // UTIL_H_INCLUDED

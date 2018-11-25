@@ -89,7 +89,7 @@ int main() {
                     break;
             case 7: cout << "\nSe debe implementar la funcionalidad";
                     break;
-            case 8: cout << "\nSe debe implementar la funcionalidad";
+        case 8: ListarDNIErroneos(variosClientes);
                     break;
             case 9: cout << "\nGracias por utilizar los servicios de GesBANCO.\n";
                     break;
