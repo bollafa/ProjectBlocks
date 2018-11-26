@@ -68,6 +68,8 @@ bool isDigit(const char& c)
 }
 bool isDNICorrect(const char DNI[MAXDNI])
 {
+  // se define como const porque no va a cambiar la tabla y como static para que no se vuelva a redefinir cada vez que se llame a la funciones
+  // la letra del dni esta definido por una tabla y como N % 23 pertenece a [0,22] sabemos que siempre va a dar dentro de la array.
   static const unsigned char LetterLookUp[23] = { 'T', 'R', 'W', 'A', 'G', 'M', 'Y', 'F', 'P', 'D', 'X',
                                                   'B', 'N', 'J', 'Z', 'S', 'Q', 'V', 'H', 'L', 'C', 'K',
                                                   'E'};
@@ -81,7 +83,8 @@ bool isDNICorrect(const char DNI[MAXDNI])
       return false;
 
   int iDNI = atoi(DNI);
-
+  
+  // el dni seria correcto si la letra dada coincide con la del algoritmo.
   return LetterLookUp[iDNI % 23] == DNI[MAXDNI-2];
 }
 void ListarDNIErroneos(const setClientes& clientes)
