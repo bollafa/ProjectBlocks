@@ -10,7 +10,7 @@ using namespace std;
 
 // Definiciones de las funciones necesarias específicas para gestionar clientes
 
-void mostrarCliente ( Cliente elCliente );
+
 
 
 void mostrarCliente( Cliente elCliente )
@@ -83,7 +83,7 @@ bool isDNICorrect(const char DNI[MAXDNI])
       return false;
 
   int iDNI = atoi(DNI);
-  
+
   // el dni seria correcto si la letra dada coincide con la del algoritmo.
   return LetterLookUp[iDNI % 23] == DNI[MAXDNI-2];
 }
@@ -101,7 +101,7 @@ void ListarDNIErroneos(const setClientes& clientes)
     }
 }
 
-void BuscarPorDNI(const setClientes& clientes, const char DNI[MAXDNI])
+void BuscarPorDNI3(const setClientes& clientes, const char DNI[MAXDNI])
 {
   for(unsigned int i = 0; i < clientes.numClientes; i++)
     {
@@ -120,4 +120,78 @@ void BuscarPorNCuenta(const setClientes& clientes, const char numCuenta[MAXNUMCU
 
     }
 }
-     
+
+void BuscarPorDNI(const setClientes& variosClientes, unsigned int &id)
+{
+    char DNI[MAXDNI];
+    leerCadena("Inserte DNI: ", DNI);
+    for(unsigned int i = 0; i < variosClientes.numClientes; i++)
+            if(strcmp(variosClientes.Clientes[i].DNI,DNI) == 0)
+                id=i;
+
+}
+void menuDeModificacion(unsigned int &modificacion)
+{
+do {
+    cout << "\n1. Nombre";
+    cout << "\n2. DNI";
+    cout << "\n3. Domiciio";
+    cout << "\n4. Numero de cuenta";
+    cout << "\n5. Tipo de cuenta";
+    cout << "\n6. Fecha de creacion de la cuenta";
+
+    modificacion= leerEntero("\nQue dato desea modificar?\n");
+
+    if (modificacion<1 || modificacion>6)
+        cout << "Elige una opcion valida";
+
+}while (modificacion<1 || modificacion>6);
+
+
+
+}
+
+void selectorDeModificacion(setClientes &variosClientes, unsigned int &modificacion, unsigned int id){
+switch (modificacion) {
+    int seguir;
+
+    case 1:
+
+        leerCadena("\nIntroduzca el nuevo nombre: ",variosClientes.Clientes[id].nombre);
+
+        break;
+    case 2:
+        do{
+            leerCadena("\nIntroduzca el nuevo DNI: ",variosClientes.Clientes[id].DNI);
+            //if (verificadorDNI)
+               //)) cout << "DNI ya existente";
+               // cout << verificadorDNI;
+
+        } while (0);
+        break;
+    case 3:
+
+        leerCadena("\nIntroduzca el nuevo domicilio: ",variosClientes.Clientes[id].domicilio);
+        break;
+    case 4:
+
+        leerCadena("\nIntroduzca el nuevo numero de cuenta: ",variosClientes.Clientes[id].numCuenta);
+        break;
+    case 5:
+
+        leerCadena("\nIntroduzca el nuevo tipo de cuenta: ",variosClientes.Clientes[id].tipoCuenta);
+        break;
+    case 6:
+        //cout << "introduzca la nueva fecha ";
+    default:
+        cout << "Error en la operacion ";
+
+}
+}
+//bool verificadorDNI (){
+    //for(unsigned int i = 0; i < variosClientes.numClientes; i++){
+      //      if(strcmp(variosClientes.Clientes[i].DNI,DNI) == 0)
+               // return false;
+   // }
+//}
+

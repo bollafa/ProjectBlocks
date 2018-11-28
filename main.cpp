@@ -72,15 +72,16 @@ int main() {
 
     cout << "\nBienvenido a GesBANCO--Sistema gestor de entidades bancarias.\n";
     do {
+
         opcion = menu();
-        
+
         switch ( opcion ) {
             case 1: listarClientes ( variosClientes );
                     break;
             case 2: cout << "\nSe debe implementar la funcionalidad";
                     break;
             case 3:
-              removeClient( variosClientes, leerEntero("Por favor inserte un numero de cliente: "));
+                removeClient( variosClientes, leerEntero("Por favor inserte un numero de cliente: "));
                     break;
             case 4:
               {
@@ -89,14 +90,25 @@ int main() {
                 BuscarPorNCuenta( variosClientes, NCuenta);
                   }
                     break;
-        case 5: {
-          char DNI[MAXDNI];
-          leerCadena("Inserte DNI: ", DNI);
-          BuscarPorDNI( variosClientes, DNI);
+            case 5:
+                {
+                unsigned int id;
 
-        }
+                BuscarPorDNI (variosClientes, id);
+                mostrarCliente(variosClientes.Clientes[id]);
+                }
                     break;
-            case 6: cout << "\nSe debe implementar la funcionalidad";
+            case 6:
+
+                {
+                unsigned int modificacion;
+                unsigned int id;
+
+                BuscarPorDNI( variosClientes,id);
+                mostrarCliente(variosClientes.Clientes[id]);
+                menuDeModificacion(modificacion);
+                selectorDeModificacion(variosClientes,modificacion,id);
+                }
                     break;
             case 7: cout << "\nSe debe implementar la funcionalidad";
                     break;
@@ -121,7 +133,7 @@ int menu()
         cout << "\n3. Eliminar cliente";
         cout << "\n4. Buscar cliente por NumCuenta";
         cout << "\n5. Buscar cliente por DNI";
-        cout << "\n6. Modificar datos de un Cliente";
+        cout << "\n6. Modificar datos de un cliente";
         cout << "\n7. Visualizar clientes por cada tipo de cuenta";
         cout << "\n8. Buscar DNIs invalidos";
         cout << "\n9. Salir\n";
