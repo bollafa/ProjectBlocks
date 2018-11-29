@@ -1,7 +1,7 @@
 #ifndef ESTRUCTURA_H_INCLUDED
 #define ESTRUCTURA_H_INCLUDED
 
-    # define MAXCLIENTES 200
+    # define MAXCLIENTES 100
     # define MAXDNI 10
     # define MAXNUMCUENTA 11
     # define MAXNOMBRE 50

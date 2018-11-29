@@ -17,5 +17,7 @@ void BuscarPorNCuenta(const setClientes& clientes, const char numCuenta[MAXDNI])
 void BuscarPorDNI(const setClientes& clientes,unsigned int &id);
 void menuDeModificacion(unsigned int &modificacion);
 void selectorDeModificacion(setClientes &variosClientes, unsigned int &modificacion, unsigned int id);
-//bool verificadorDNI ();
+bool verificadorDNI (setClientes variosClientes, char DNI[]);
+bool verificadorvalidezNumCuenta (char numCuenta[]);
+bool verificadorExistenciaNumCuenta (setClientes variosClientes, char numCuenta[]);
 #endif // UTIL_H_INCLUDED

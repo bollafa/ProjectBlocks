@@ -124,11 +124,15 @@ void BuscarPorNCuenta(const setClientes& clientes, const char numCuenta[MAXNUMCU
 void BuscarPorDNI(const setClientes& variosClientes, unsigned int &id)
 {
     char DNI[MAXDNI];
-    leerCadena("Inserte DNI: ", DNI);
-    for(unsigned int i = 0; i < variosClientes.numClientes; i++)
+    do {
+        id=101;
+        leerCadena("Inserte DNI: ", DNI);
+        for(unsigned int i = 0; i < variosClientes.numClientes; i++)
             if(strcmp(variosClientes.Clientes[i].DNI,DNI) == 0)
                 id=i;
-
+            if (id==101)
+                cout << "El DNI no se encuentra en la base de datos\n";
+    } while (id==101);
 }
 void menuDeModificacion(unsigned int &modificacion)
 {
@@ -138,7 +142,7 @@ do {
     cout << "\n3. Domiciio";
     cout << "\n4. Numero de cuenta";
     cout << "\n5. Tipo de cuenta";
-    cout << "\n6. Fecha de creacion de la cuenta";
+    cout << "\n6. Fecha de creacion de la cuenta\n";
 
     modificacion= leerEntero("\nQue dato desea modificar?\n");
 
@@ -153,7 +157,7 @@ do {
 
 void selectorDeModificacion(setClientes &variosClientes, unsigned int &modificacion, unsigned int id){
 switch (modificacion) {
-    int seguir;
+
 
     case 1:
 
@@ -161,37 +165,77 @@ switch (modificacion) {
 
         break;
     case 2:
+    {
+        char DNI[MAXDNI];
         do{
-            leerCadena("\nIntroduzca el nuevo DNI: ",variosClientes.Clientes[id].DNI);
-            //if (verificadorDNI)
-               //)) cout << "DNI ya existente";
-               // cout << verificadorDNI;
+            leerCadena("\nIntroduzca el nuevo DNI: ",DNI);
+            if (verificadorDNI(variosClientes,DNI))
+                cout << "DNI ya existente";
+        } while (verificadorDNI(variosClientes,DNI));
+        strcpy(variosClientes.Clientes[id].DNI, DNI);
 
-        } while (0);
+    }
         break;
     case 3:
 
         leerCadena("\nIntroduzca el nuevo domicilio: ",variosClientes.Clientes[id].domicilio);
         break;
     case 4:
+        char numCuenta[11];
 
-        leerCadena("\nIntroduzca el nuevo numero de cuenta: ",variosClientes.Clientes[id].numCuenta);
+        do{
+        leerCadena("\nIntroduzca el nuevo numero de cuenta: ",numCuenta);
+        if (!verificadorvalidezNumCuenta (numCuenta))
+            cout << "Numero de cuenta incorrecto";
+        if (verificadorExistenciaNumCuenta (variosClientes,numCuenta))
+            cout << "Numero de cuenta ya existente";
+        }while(!verificadorvalidezNumCuenta (numCuenta)||verificadorExistenciaNumCuenta (variosClientes,numCuenta));
+        strcpy(variosClientes.Clientes[id].numCuenta, numCuenta);
         break;
     case 5:
 
         leerCadena("\nIntroduzca el nuevo tipo de cuenta: ",variosClientes.Clientes[id].tipoCuenta);
         break;
     case 6:
-        //cout << "introduzca la nueva fecha ";
+        int dia;
+        int anho;
+        char mes [11];
+
+        cout << "\nIntroduzca la nueva fecha\n ";
+        dia= leerEntero("Dia: ");
+        leerCadena("Mes: ", mes);
+        anho= leerEntero("Anho: ");
+cout << mes;
+        dia= variosClientes.Clientes[id].fecha.dia;
+       // strcpy(variosClientes.Clientes[id].fecha.mes, mes);
+        anho= variosClientes.Clientes[id].fecha.anho;
+
     default:
         cout << "Error en la operacion ";
 
 }
+ cout << "Cambio realizado con exito";
 }
-//bool verificadorDNI (){
-    //for(unsigned int i = 0; i < variosClientes.numClientes; i++){
-      //      if(strcmp(variosClientes.Clientes[i].DNI,DNI) == 0)
-               // return false;
-   // }
-//}
+bool verificadorDNI (setClientes variosClientes, char DNI[]){
+    for(unsigned int i = 0; i < variosClientes.numClientes; i++)
+        if(strcmp(variosClientes.Clientes[i].DNI,DNI) == 0)
+            return true;
+    return false;
+}
 
+bool verificadorvalidezNumCuenta (char numCuenta[]){
+    for (int i=0;i<6;i++)
+        if ((numCuenta[i]>'A')&& (numCuenta[i] < 'Z'))
+            for (int i=6; i<10;i++)
+                if ((numCuenta[i]>='0')&& (numCuenta[i] <= '9'))
+                    return true;
+
+    return false;
+}
+
+bool verificadorExistenciaNumCuenta (setClientes variosClientes, char numCuenta[]){
+    for(unsigned int i = 0; i < variosClientes.numClientes; i++)
+        if(strcmp(variosClientes.Clientes[i].numCuenta,numCuenta) == 0)
+            return true;
+    return false;
+}

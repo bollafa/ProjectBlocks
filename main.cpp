@@ -100,7 +100,7 @@ int main() {
                     break;
             case 6:
 
-                {
+            {
                 unsigned int modificacion;
                 unsigned int id;
 
@@ -108,7 +108,7 @@ int main() {
                 mostrarCliente(variosClientes.Clientes[id]);
                 menuDeModificacion(modificacion);
                 selectorDeModificacion(variosClientes,modificacion,id);
-                }
+            }
                     break;
             case 7: cout << "\nSe debe implementar la funcionalidad";
                     break;
