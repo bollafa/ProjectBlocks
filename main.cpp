@@ -103,11 +103,17 @@ int main() {
             {
                 unsigned int modificacion;
                 unsigned int id;
+                char seguir[3];
 
                 BuscarPorDNI( variosClientes,id);
                 mostrarCliente(variosClientes.Clientes[id]);
+                do{
                 menuDeModificacion(modificacion);
                 selectorDeModificacion(variosClientes,modificacion,id);
+                mostrarCliente(variosClientes.Clientes[id]);
+                leerCadena("Quieres hacer mas cambios? ",seguir);
+
+                }while (!strcmp(seguir,"si")|| !strcmp(seguir,"Si")|| !strcmp(seguir,"s")|| !strcmp(seguir,"S"));
             }
                     break;
             case 7: cout << "\nSe debe implementar la funcionalidad";

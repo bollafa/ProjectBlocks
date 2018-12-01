@@ -196,29 +196,44 @@ switch (modificacion) {
 
         leerCadena("\nIntroduzca el nuevo tipo de cuenta: ",variosClientes.Clientes[id].tipoCuenta);
         break;
-    case 6:
-        int dia;
-        int anho;
+    case 6:{
+        unsigned int dia;
+        unsigned int anho;
         char mes [11];
+        unsigned int mesNum;
 
-        cout << "\nIntroduzca la nueva fecha\n ";
+
+        cout << "\nIntroduzca la nueva fecha\n";
+do {
         dia= leerEntero("Dia: ");
         leerCadena("Mes: ", mes);
         anho= leerEntero("Anho: ");
-cout << mes;
-        dia= variosClientes.Clientes[id].fecha.dia;
-       // strcpy(variosClientes.Clientes[id].fecha.mes, mes);
-        anho= variosClientes.Clientes[id].fecha.anho;
+
+
+        if (!verificadorMes(mes, mesNum))
+            cout << "Mes introducido no valido\n";
+        if (!verificadorDia(dia,mesNum, anho))
+            cout << "El dia y el mes no se corresponden\n";
+        if (!verificadorAnho(anho))
+            cout << "El anho de creacion de la cuenta no puede ser posterior al actual\n";
+
+}while(!verificadorMes(mes, mesNum)|| !verificadorDia(dia,mesNum, anho) || !verificadorAnho(anho));
+
+        variosClientes.Clientes[id].fecha.mes=mesNum;
+        variosClientes.Clientes[id].fecha.dia=dia;
+        variosClientes.Clientes[id].fecha.anho=anho;
+    }
+        break;
 
     default:
         cout << "Error en la operacion ";
 
 }
- cout << "Cambio realizado con exito";
+ cout << "\nCambio realizado con exito...\n";
 }
 bool verificadorDNI (setClientes variosClientes, char DNI[]){
     for(unsigned int i = 0; i < variosClientes.numClientes; i++)
-        if(strcmp(variosClientes.Clientes[i].DNI,DNI) == 0)
+        if(!strcmp(variosClientes.Clientes[i].DNI,DNI))
             return true;
     return false;
 }
@@ -239,3 +254,57 @@ bool verificadorExistenciaNumCuenta (setClientes variosClientes, char numCuenta[
             return true;
     return false;
 }
+
+bool verificadorMes(char mes[], unsigned int &mesNum){
+
+    char meses [ ][ 12 ] = {"enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"};
+
+    if (atoi (mes)>0 && atoi (mes)<13){
+        mesNum= atoi (mes);
+        return true;
+    }
+    else
+        for(mesNum = 0; mesNum < 12; mesNum++)
+            if(!strcmp(meses[mesNum],mes)){
+                mesNum++;
+                return true;
+            }
+    return false;
+
+}
+
+bool verificadorDia(unsigned int dia, unsigned int mesNum, unsigned int anho){
+
+
+    if (mesNum==1|| mesNum==3|| mesNum==5|| mesNum==7|| mesNum==8|| mesNum==10|| mesNum==12)
+        if (dia<32 && dia > 0)
+            return true;
+        else return false;
+
+    if (mesNum==4|| mesNum==6|| mesNum==9|| mesNum==11)
+        if (dia<31 && dia > 0)
+            return true;
+        else return false;
+
+    if (mesNum==2)
+        if (anho%4==0)
+            if (dia < 30 && dia>0)
+                return true;
+            else
+                return false;
+        else
+            if (dia <29 && dia >0)
+                return true;
+            else
+                return false;
+
+}
+
+bool verificadorAnho(unsigned int anho){
+if (anho<2019)
+    return true;
+return false;
+
+
+}
+

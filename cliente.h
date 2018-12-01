@@ -20,4 +20,8 @@ void selectorDeModificacion(setClientes &variosClientes, unsigned int &modificac
 bool verificadorDNI (setClientes variosClientes, char DNI[]);
 bool verificadorvalidezNumCuenta (char numCuenta[]);
 bool verificadorExistenciaNumCuenta (setClientes variosClientes, char numCuenta[]);
+bool verificadorMes(char mes[], unsigned int &mesNum);
+bool verificadorDia(unsigned int dia, unsigned int mesNum,unsigned int anho);
+bool verificadorAnho(unsigned int anho);
+
 #endif // UTIL_H_INCLUDED
