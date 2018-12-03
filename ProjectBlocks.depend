@@ -28,17 +28,17 @@
 	"cliente.h"
 	"util.h"
 
-1543691770 source:c:\users\abeja\desktop\clase\programación\proyecto\projectblocks\cliente.cpp
+1543847044 source:c:\users\abeja\desktop\clase\programación\proyecto\projectblocks\cliente.cpp
 	<iostream>
 	<cstdlib>
 	"string.h"
 	"cliente.h"
 	"util.h"
 
-1543689932 c:\users\abeja\desktop\clase\programación\proyecto\projectblocks\cliente.h
+1543754692 c:\users\abeja\desktop\clase\programación\proyecto\projectblocks\cliente.h
 	"estructura.h"
 
-1543524509 c:\users\abeja\desktop\clase\programación\proyecto\projectblocks\estructura.h
+1543771353 c:\users\abeja\desktop\clase\programación\proyecto\projectblocks\estructura.h
 
 1543254268 c:\users\abeja\desktop\clase\programación\proyecto\projectblocks\util.h
 	<iostream>
@@ -49,7 +49,7 @@
 	<cstdlib>
 	"util.h"
 
-1543681207 source:c:\users\abeja\desktop\clase\programación\proyecto\projectblocks\main.cpp
+1543846536 source:c:\users\abeja\desktop\clase\programación\proyecto\projectblocks\main.cpp
 	<iostream>
 	<cstdlib>
 	"string.h"

@@ -81,23 +81,30 @@ int main() {
             case 2: cout << "\nSe debe implementar la funcionalidad";
                     break;
             case 3:
-                removeClient( variosClientes, leerEntero("Por favor inserte un numero de cliente: "));
-                    break;
+                {
+                unsigned int id;
+
+                BuscarPorDNI (variosClientes, id);
+                if(id!=101)
+                    removeClient(variosClientes, id);
+                }
+                break;
             case 4:
               {
                 char NCuenta[MAXNUMCUENTA];
-                leerCadena("Inserte número de cuenta: ", NCuenta);
+                leerCadena("Inserte numero de cuenta: ", NCuenta);
                 BuscarPorNCuenta( variosClientes, NCuenta);
                   }
-                    break;
+                break;
             case 5:
                 {
                 unsigned int id;
 
                 BuscarPorDNI (variosClientes, id);
-                mostrarCliente(variosClientes.Clientes[id]);
+                if(id!=101)
+                    mostrarCliente(variosClientes.Clientes[id]);
                 }
-                    break;
+                break;
             case 6:
 
             {
@@ -106,19 +113,24 @@ int main() {
                 char seguir[3];
 
                 BuscarPorDNI( variosClientes,id);
-                mostrarCliente(variosClientes.Clientes[id]);
-                do{
-                menuDeModificacion(modificacion);
-                selectorDeModificacion(variosClientes,modificacion,id);
-                mostrarCliente(variosClientes.Clientes[id]);
-                leerCadena("Quieres hacer mas cambios? ",seguir);
+                if(id!=101){
+                    mostrarCliente(variosClientes.Clientes[id]);
+                    do{
+                        menuDeModificacion(modificacion);
+                        selectorDeModificacion(variosClientes,modificacion,id);
+                        mostrarCliente(variosClientes.Clientes[id]);
+                        leerCadena("Quieres hacer mas cambios? ",seguir);
 
-                }while (!strcmp(seguir,"si")|| !strcmp(seguir,"Si")|| !strcmp(seguir,"s")|| !strcmp(seguir,"S"));
+                    }while (!strcmp(seguir,"si")|| !strcmp(seguir,"Si")|| !strcmp(seguir,"s")|| !strcmp(seguir,"S"));
+                }
             }
-                    break;
-            case 7: cout << "\nSe debe implementar la funcionalidad";
-                    break;
-        case 8: ListarDNIErroneos(variosClientes);
+                break;
+            case 7:
+
+                visualizadorTipoCuenta(variosClientes);
+
+                break;
+            case 8: ListarDNIErroneos(variosClientes);
                     break;
             case 9: cout << "\nGracias por utilizar los servicios de GesBANCO.\n";
                     break;

@@ -23,5 +23,6 @@ bool verificadorExistenciaNumCuenta (setClientes variosClientes, char numCuenta[
 bool verificadorMes(char mes[], unsigned int &mesNum);
 bool verificadorDia(unsigned int dia, unsigned int mesNum,unsigned int anho);
 bool verificadorAnho(unsigned int anho);
+void visualizadorTipoCuenta(setClientes &variosClientes);
 
 #endif // UTIL_H_INCLUDED

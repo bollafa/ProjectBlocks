@@ -28,4 +28,10 @@
         int numClientes;  // Número total de clientes existentes en el vector clientes
     };
 
+
+struct cuenta{
+char tipoCuenta[MAXTIPOCUENTA];
+int id ;
+};
+
 #endif // ESTRUCTURA_H_INCLUDED
