@@ -80,7 +80,7 @@ bool isDNICorrect(const char DNI[MAXDNI])
 
   int iDNI = atoi(DNI);
 
-  // el dni seria correcto si la letra dada coincide con la del algoritmo.
+  // el DNI seria correcto si la letra dada coincide con la del algoritmo.
   return LetterLookUp[iDNI % 23] == DNI[MAXDNI-2];
 }
 void ListarDNIErroneos(const setClientes& clientes)
@@ -97,7 +97,7 @@ void ListarDNIErroneos(const setClientes& clientes)
     }
 }
 
-void BuscarPorDNI3(const setClientes& clientes, const char DNI[MAXDNI])
+/*void BuscarPorDNI3(const setClientes& clientes, const char DNI[MAXDNI])
 {
   for(unsigned int i = 0; i < clientes.numClientes; i++)
     {
@@ -106,7 +106,7 @@ void BuscarPorDNI3(const setClientes& clientes, const char DNI[MAXDNI])
     }
 
 }
-
+*/
 void BuscarPorNCuenta(const setClientes& clientes, const char numCuenta[MAXNUMCUENTA])
 {
     bool comprobador=false;
@@ -126,8 +126,8 @@ void BuscarPorDNI(const setClientes& variosClientes, unsigned int &id)
 
     id=101;
     do {
-        leerCadena("Inserte DNI o pulsa '*' para cancelar\n", DNI);
-        for(unsigned int i = 0; i < variosClientes.numClientes; i++)
+        leerCadena("Inserte DNI o pulsa '*' para cancelar\n", DNI); //Se pide el DNI
+        for(unsigned int i = 0; i < variosClientes.numClientes; i++) //Se compara con los DNI existentes y le asocia
             if(!strcmp(variosClientes.Clientes[i].DNI,DNI))
                 id=i;
         if (id==101&& DNI[0]!='*')
@@ -135,7 +135,7 @@ void BuscarPorDNI(const setClientes& variosClientes, unsigned int &id)
 
     } while (id==101&&DNI[0]!='*');
 }
-void menuDeModificacion(unsigned int &modificacion)
+void menuDeModificacion(unsigned int &modificacion) //Menu con los datos que se pueden modificar
 {
 do {
     cout << "\n1. Nombre";
@@ -146,12 +146,12 @@ do {
     cout << "\n6. Fecha de creacion de la cuenta";
     cout << "\n7. Salir\n";
 
-    modificacion= leerEntero("\nQue dato desea modificar?\n");
+    modificacion= leerEntero("\nQue dato desea modificar?\n"); //Introducimos la variable que nos permitira realizar los cambios
 
     if (modificacion<1 || modificacion>7)
         cout << "\nElige una opcion valida\n";
 
-}while (modificacion<1 || modificacion>7);
+}while (modificacion<1 || modificacion>7); //Se repite hasta que se introduzca un valor correcto
 
 
 
@@ -159,49 +159,50 @@ do {
 
 void selectorDeModificacion(setClientes &variosClientes, unsigned int &modificacion, unsigned int id){
 
-
+//Para realizar los cambios en los datos creamos un switch con el que se llevaran a cab los cambios en funcion de la opcion elegida por el usuario
 
     switch (modificacion) {
 
 
-        case 1:
+        case 1:     //Introducimos un nuevo valor para el array de nombre
 
             leerCadena("\nIntroduzca el nuevo nombre: ",variosClientes.Clientes[id].nombre);
 
             break;
-        case 2:
-        {
+        case 2:        //Modificamos el valor del DNI siempre que este no este ya almacenado o si se eligela opcion de cancelar.
+        {              //Se repite la operacion hasta que sea correcto o se cancele
             char DNI[MAXDNI];
             do{
-                leerCadena("\nIntroduzca el nuevo DNI: ",DNI);
+                leerCadena("\nIntroduzca el nuevo DNI o pulsa '*' para cancelar: ",DNI);
                 if (verificadorDNI(variosClientes,DNI))
                     cout << "DNI ya existente";
             } while (verificadorDNI(variosClientes,DNI));
-            strcpy(variosClientes.Clientes[id].DNI, DNI);
+            if (DNI[0]!='*')
+                strcpy(variosClientes.Clientes[id].DNI, DNI);
 
         }
             break;
-        case 3:
+        case 3:     //Introducimos un nuevo valor para el array de domicilio
 
             leerCadena("\nIntroduzca el nuevo domicilio: ",variosClientes.Clientes[id].domicilio);
             break;
-        case 4:
+        case 4:     //Pedimos un nuevo numero de cuenta y si este es correcto se modifica. Se repite la operacion hasta que sea correcto o se cancele
             char numCuenta[11];
-
             do{
-            leerCadena("\nIntroduzca el nuevo numero de cuenta: ",numCuenta);
-            if (!verificadorvalidezNumCuenta (numCuenta))
+            leerCadena("\nIntroduzca el nuevo numero de cuenta o pulsa '*' para cancelar: ",numCuenta);
+            if (!verificadorvalidezNumCuenta (numCuenta) && numCuenta[0]!='*')
                 cout << "Numero de cuenta incorrecto";
-            if (verificadorExistenciaNumCuenta (variosClientes,numCuenta))
+            if (verificadorExistenciaNumCuenta (variosClientes,numCuenta) && numCuenta[0]!='*')
                 cout << "Numero de cuenta ya existente";
-            }while(!verificadorvalidezNumCuenta (numCuenta)||verificadorExistenciaNumCuenta (variosClientes,numCuenta));
-            strcpy(variosClientes.Clientes[id].numCuenta, numCuenta);
+            }while((!verificadorvalidezNumCuenta (numCuenta)||verificadorExistenciaNumCuenta (variosClientes,numCuenta))&& (numCuenta[0]!='*'));
+            if (numCuenta[0]!='*')
+                strcpy(variosClientes.Clientes[id].numCuenta, numCuenta);
             break;
-        case 5:
+        case 5:     //Introducimos un nuevo valor para el array de tipo de cuenta
 
             leerCadena("\nIntroduzca el nuevo tipo de cuenta: ",variosClientes.Clientes[id].tipoCuenta);
             break;
-        case 6:{
+        case 6:{        //Pedimos un nuevo numero de cuenta y si este es correcto se modifica. Se repite la operacion hasta que sea correcto o se cancele
             unsigned int dia;
             unsigned int anho;
             char mes [11];
@@ -220,18 +221,21 @@ void selectorDeModificacion(setClientes &variosClientes, unsigned int &modificac
                 if (!verificadorDia(dia,mesNum, anho))
                     cout << "El dia y el mes no se corresponden\n";
                 if (!verificadorAnho(anho))
-                    cout << "El anho de creacion de la cuenta no puede ser posterior al actual\n";
+                    cout << "El anho de creacion de la cuenta tiene que ser un numero y no puede ser superior al anho actual\n";
 
-                if (!verificadorMes(mes, mesNum)|| !verificadorDia(dia,mesNum, anho) || !verificadorAnho(anho))
-                    leerCadena("Pulsa '*' para salir o otra tecla introducir otra fecha\n",continuar);
-                    if (continuar[0]='*')
+                if (!verificadorMes(mes, mesNum)|| !verificadorDia(dia,mesNum, anho) || !verificadorAnho(anho)){
+                    leerCadena("Pulsa '*' para salir o otra tecla para introducir una fecha valida\n",continuar);
+                    if (continuar[0]=='*')
                         break;
 
+                    }
             }while(!verificadorMes(mes, mesNum)|| !verificadorDia(dia,mesNum, anho) || !verificadorAnho(anho));
 
-                variosClientes.Clientes[id].fecha.mes=mesNum;
-                variosClientes.Clientes[id].fecha.dia=dia;
-                variosClientes.Clientes[id].fecha.anho=anho;
+                if(continuar[0]!='*'){
+                    variosClientes.Clientes[id].fecha.mes=mesNum;
+                    variosClientes.Clientes[id].fecha.dia=dia;
+                    variosClientes.Clientes[id].fecha.anho=anho;
+                }
         }
             break;
 
@@ -241,16 +245,16 @@ void selectorDeModificacion(setClientes &variosClientes, unsigned int &modificac
             cout << "Error en la operacion ";
 
 }
-    cout << "\nCambio realizado con exito...\n";
+    cout << "\nOperacion realizada con exito...\n";
 }
-bool verificadorDNI (setClientes variosClientes, char DNI[]){
+bool verificadorDNI (setClientes variosClientes, char DNI[]){  //Comparamos el DNI introducido con los ya existentes para descartar que ya este almacenado
     for(unsigned int i = 0; i < variosClientes.numClientes; i++)
         if(!strcmp(variosClientes.Clientes[i].DNI,DNI))
             return true;
     return false;
 }
 
-bool verificadorvalidezNumCuenta (char numCuenta[]){
+bool verificadorvalidezNumCuenta (char numCuenta[]){  //Comprobamos que el numero de cuenta introducido sea valido ( tenga 6 letras y despues 4 numeros)
     for (int i=0;i<6;i++)
         if ((numCuenta[i]>'A')&& (numCuenta[i] < 'Z'))
             for (int i=6; i<10;i++)
@@ -260,8 +264,8 @@ bool verificadorvalidezNumCuenta (char numCuenta[]){
     return false;
 }
 
-bool verificadorExistenciaNumCuenta (setClientes variosClientes, char numCuenta[]){
-    for(unsigned int i = 0; i < variosClientes.numClientes; i++)
+bool verificadorExistenciaNumCuenta (setClientes variosClientes, char numCuenta[]){ //Comparamos el numero de cuenta introducido con los
+    for(unsigned int i = 0; i < variosClientes.numClientes; i++)                    //existentes para descartar que ya este almacenado
         if(strcmp(variosClientes.Clientes[i].numCuenta,numCuenta) == 0)
             return true;
     return false;
@@ -269,14 +273,16 @@ bool verificadorExistenciaNumCuenta (setClientes variosClientes, char numCuenta[
 
 bool verificadorMes(char mes[], unsigned int &mesNum){
 
+//Se permiten dos formas de introducir el mes, mediante un numero de 1 al 12 o en letra
+
     char meses [ ][ 12 ] = {"enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"};
 
-    if (atoi (mes)>0 && atoi (mes)<13){
+    if (atoi (mes)>0 && atoi (mes)<13){ //Devolvemos el valor true si el caracter introducido es un numero entre el 1 y el 12
         mesNum= atoi (mes);
         return true;
     }
     else
-        for(mesNum = 0; mesNum < 12; mesNum++)
+        for(mesNum = 0; mesNum < 12; mesNum++) //Comparamos el mes introducido con los de la matriz meses, si coinciden devolvemos el valor true
             if(!strcmp(meses[mesNum],mes)){
                 mesNum++;
                 return true;
@@ -286,7 +292,7 @@ bool verificadorMes(char mes[], unsigned int &mesNum){
 }
 
 bool verificadorDia(unsigned int dia, unsigned int mesNum, unsigned int anho){
-
+//Restringimos los valores de la variable dia en funcion de mes
 
     if (mesNum==1|| mesNum==3|| mesNum==5|| mesNum==7|| mesNum==8|| mesNum==10|| mesNum==12)
         if (dia<32 && dia > 0)
@@ -297,6 +303,8 @@ bool verificadorDia(unsigned int dia, unsigned int mesNum, unsigned int anho){
         if (dia<31 && dia > 0)
             return true;
         else return false;
+
+//Comprobamo si el año es bisiesto (se puede dividir por 4) y en funcion del resultado limitamos los dias de febrero
 
     if (mesNum==2)
         if (anho%4==0)
@@ -312,24 +320,25 @@ bool verificadorDia(unsigned int dia, unsigned int mesNum, unsigned int anho){
 
 }
 
-bool verificadorAnho(unsigned int anho){
-    if (anho<2019)
+bool verificadorAnho(unsigned int anho){  //Comprobamos que el año no sea superior a 2018
+    if (anho<2019 && anho>0 )
         return true;
     return false;
 
 
 }
-
+//Para ordenar los clientes en funcion del tipo de cuenta que tienen, almacenamos la id del cliente y su tipo de cuenta en una matriz
+//En las filas estan situados los clientes con un mismo tipo de cuenta y en las columnas los diferentes tipos de cuentas
 void visualizadorTipoCuenta(setClientes &variosClientes){
 
     cuenta estructurador [MAXCLIENTES][MAXCLIENTES]={};
 
-    for (int i=0; i<variosClientes.numClientes; i++){
+    for (int i=0; i<variosClientes.numClientes; i++){ //Con este bucle asignamos una posicion de la matriz a un cliente por cada repeticion del mismo
         int j=-1;
         do{
             j++;
-            if (!strcmp(estructurador[j][0].tipoCuenta,variosClientes.Clientes[i].tipoCuenta))
-                for (int k=0;k<variosClientes.numClientes;k++){
+            if (!strcmp(estructurador[j][0].tipoCuenta,variosClientes.Clientes[i].tipoCuenta)) //Si en una fila encontramos el mismo tipo de cuenta que la del cliente que queremos asignar
+                for (int k=0;k<variosClientes.numClientes;k++){                                //situamos al nuevo cliente en la primera posicion vacia de la fila
                     if(!strcmp (estructurador[j][k].tipoCuenta,"")){
                         strcpy(estructurador[j][k].tipoCuenta,variosClientes.Clientes[i].tipoCuenta);
                         estructurador[j][k].id=i+1;
@@ -337,14 +346,14 @@ void visualizadorTipoCuenta(setClientes &variosClientes){
                     }
                 }
 
-            else if(!strcmp(estructurador[j][0].tipoCuenta,"")){
+            else if(!strcmp(estructurador[j][0].tipoCuenta,"")){  //Si una fila esta vacia, colocamos el cliente en esa posicion
                 strcpy(estructurador[j][0].tipoCuenta,variosClientes.Clientes[i].tipoCuenta);
                 estructurador[j][0].id=i+1;
             }
 
-        }while (!!strcmp(estructurador[j][0].tipoCuenta,"")&&!!strcmp(estructurador[j][0].tipoCuenta,variosClientes.Clientes[i].tipoCuenta));
+        }while (!!strcmp(estructurador[j][0].tipoCuenta,"")&&!!strcmp(estructurador[j][0].tipoCuenta,variosClientes.Clientes[i].tipoCuenta)); //Repetimos el proceso hasta que se le haya asignado un puesto al cliente
     }
-
+//Una vez creada la matriz simplemente la recorremos por filas visualizando el cliente con la id guardada en cada posicion de la matriz
     for (int i =0;i<variosClientes.numClientes;i++){
         if (estructurador[i][0].id!=0)
             cout << "Tipo de cuenta: "<< estructurador[i][0].tipoCuenta <<endl << endl;
