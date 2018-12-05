@@ -28,7 +28,7 @@ void selectorDeModificacion(setClientes &variosClientes, unsigned int &modificac
 
 //Funcionalidad 7
 void visualizadorTipoCuenta(setClientes &variosClientes);
-
+void visualizadorTipoCuentaAlternativo(setClientes clientes);
 //Funcionalidad 8
 void ListarDNIErroneos(const setClientes& clientes);
 

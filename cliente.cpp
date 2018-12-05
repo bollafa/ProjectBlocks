@@ -49,10 +49,10 @@ void removeClient( setClientes& clientes, int id)
 
     for(int i = clientes.numClientes - 2; i >= id; i--)
     {
-      cout << "i: " << i << '\n';
-      cout << clientes.Clientes[clientes.numClientes - 1].nombre << " << " << clientes.Clientes[i].nombre << '\n';
+      //cout << "i: " << i << '\n';
+      //cout << clientes.Clientes[clientes.numClientes - 1].nombre << " << " << clientes.Clientes[i].nombre << '\n';
       swap(clientes.Clientes[clientes.numClientes - 1],clientes.Clientes[i]);
-      cout << clientes.Clientes[clientes.numClientes - 1].nombre << " << " << clientes.Clientes[i].nombre << '\n';
+      //cout << clientes.Clientes[clientes.numClientes - 1].nombre << " << " << clientes.Clientes[i].nombre << '\n';
     }
 
     clientes.numClientes--;
@@ -367,5 +367,36 @@ void visualizadorTipoCuenta(setClientes &variosClientes){
             if (estructurador[i][j].id!=0){
                 mostrarCliente(variosClientes.Clientes[estructurador[i][j].id-1]);
             }
+    }
+}
+
+void visualizadorTipoCuentaAlternativo(setClientes clientes)
+{
+  if(clientes.numClientes <= 0)
+    return;
+  
+  char CurrentTipoCuenta[MAXTIPOCUENTA];
+  char NextTipoCuenta[MAXTIPOCUENTA];
+  strcpy(CurrentTipoCuenta,clientes.Clientes[0].tipoCuenta);
+  while(clientes.numClientes > 0)
+    {
+      
+      std::cout << "Tipo de cuenta: " << CurrentTipoCuenta << "\n";
+      for(unsigned int i = 0; i < clientes.numClientes ; i++)
+        {
+          if(!strcmp(CurrentTipoCuenta,clientes.Clientes[i].tipoCuenta))
+            {
+              mostrarCliente(clientes.Clientes[i]);
+              removeClient(clientes,i);
+              // al borrar en la array hay que restarle al indice para ajustarse
+              // al nuevo tamaño.
+              i--;
+            }
+          else
+            {
+              strcpy(NextTipoCuenta,clientes.Clientes[i].tipoCuenta);
+            }
+        }
+      strcpy(CurrentTipoCuenta,NextTipoCuenta);
     }
 }

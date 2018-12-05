@@ -126,8 +126,8 @@ int main() {
             }
                 break;
             case 7:
-
-                visualizadorTipoCuenta(variosClientes);
+              visualizadorTipoCuenta(variosClientes);
+              
 
                 break;
             case 8: ListarDNIErroneos(variosClientes);
