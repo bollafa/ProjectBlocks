@@ -64,15 +64,15 @@ bool isDigit(const char& c)
 }
 bool isDNICorrect(const char DNI[MAXDNI])
 {
-  // se define como const porque no va a cambiar la tabla y como static para que no se vuelva a redefinir cada vez que se llame a la funciones
+  // se define como const porque no va a cambiar la tabla y como static para que no se vuelva a redefinir cada vez que se llame a la funcion
   // la letra del dni esta definido por una tabla y como N % 23 pertenece a [0,22] sabemos que siempre va a dar dentro de la array.
   static const unsigned char LetterLookUp[23] = { 'T', 'R', 'W', 'A', 'G', 'M', 'Y', 'F', 'P', 'D', 'X',
                                                   'B', 'N', 'J', 'Z', 'S', 'Q', 'V', 'H', 'L', 'C', 'K',
                                                   'E'};
-  if(strlen(DNI) != 9)
+  if(strlen(DNI) != MAXDNI-1)
     return false;
 
-  // hay que comprobar que todos los caracters del dni menos el ultimo sean digitos, pues dnis como '00000000T'
+  // hay que comprobar que todos los caracteres del dni menos el ultimo sean digitos, pues dnis como '00000000T'
   // son válidos y dnis como '0   0  0T' deberian ser invalidos pero atoi(DNI) daria el mismo resultado := 0.
   for(unsigned int i = 0; i < MAXDNI-2; i++)
     if(!isDigit(DNI[i]))
@@ -109,14 +109,14 @@ void ListarDNIErroneos(const setClientes& clientes)
 */
 void BuscarPorNCuenta(const setClientes& clientes, const char numCuenta[MAXNUMCUENTA])
 {
-    bool comprobador=false;
+    bool bExisteCliente=false;
 
   for(unsigned int i = 0; i < clientes.numClientes; i++)
     if(!strcmp(clientes.Clientes[i].numCuenta,numCuenta)){
         mostrarCliente(clientes.Clientes[i]);
-        comprobador=true;
+        bExisteCliente=true;
     }
-    if(!comprobador)
+    if(!bExisteCliente)
         cout << "No existe ningun cliente con ese numero de cuenta";
 }
 
@@ -124,16 +124,18 @@ void BuscarPorDNI(const setClientes& variosClientes, unsigned int &id)
 {
     char DNI[MAXDNI];
 
-    id=101;
+    id=MAXCLIENTES+1;
     do {
         leerCadena("Inserte DNI o pulsa '*' para cancelar\n", DNI); //Se pide el DNI
+        if(DNI[0] == '*')
+          return;
         for(unsigned int i = 0; i < variosClientes.numClientes; i++) //Se compara con los DNI existentes y le asocia
             if(!strcmp(variosClientes.Clientes[i].DNI,DNI))
                 id=i;
-        if (id==101&& DNI[0]!='*')
+        if (id==MAXCLIENTES+1)
                 cout << "El DNI no se encuentra en la base de datos\n\n";
 
-    } while (id==101&&DNI[0]!='*');
+    } while (id==MAXCLIENTES+1);
 }
 void menuDeModificacion(unsigned int &modificacion) //Menu con los datos que se pueden modificar
 {
@@ -247,14 +249,15 @@ void selectorDeModificacion(setClientes &variosClientes, unsigned int &modificac
 }
     cout << "\nOperacion realizada con exito...\n";
 }
-bool verificadorDNI (setClientes variosClientes, char DNI[]){  //Comparamos el DNI introducido con los ya existentes para descartar que ya este almacenado
+bool verificadorDNI (setClientes variosClientes, char DNI[]){
+  //Comparamos el DNI introducido con los ya existentes para descartar que ya este almacenado
     for(unsigned int i = 0; i < variosClientes.numClientes; i++)
         if(!strcmp(variosClientes.Clientes[i].DNI,DNI))
             return true;
     return false;
 }
-
-bool verificadorvalidezNumCuenta (char numCuenta[]){  //Comprobamos que el numero de cuenta introducido sea valido ( tenga 6 letras y despues 4 numeros)
+bool verificadorvalidezNumCuenta (char numCuenta[]){  
+  //Comprobamos que el numero de cuenta introducido sea valido ( tenga 6 letras y despues 4 numeros)
     for (int i=0;i<6;i++)
         if ((numCuenta[i]>'A')&& (numCuenta[i] < 'Z'))
             for (int i=6; i<10;i++)
@@ -263,9 +266,9 @@ bool verificadorvalidezNumCuenta (char numCuenta[]){  //Comprobamos que el numer
 
     return false;
 }
-
-bool verificadorExistenciaNumCuenta (setClientes variosClientes, char numCuenta[]){ //Comparamos el numero de cuenta introducido con los
-    for(unsigned int i = 0; i < variosClientes.numClientes; i++)                    //existentes para descartar que ya este almacenado
+bool verificadorExistenciaNumCuenta (setClientes variosClientes, char numCuenta[]){ 
+  //Comparamos el numero de cuenta introducido con los existentes para descartar que ya este almacenado
+    for(unsigned int i = 0; i < variosClientes.numClientes; i++)                    
         if(strcmp(variosClientes.Clientes[i].numCuenta,numCuenta) == 0)
             return true;
     return false;
@@ -277,12 +280,13 @@ bool verificadorMes(char mes[], unsigned int &mesNum){
 
     char meses [ ][ 12 ] = {"enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"};
 
-    if (atoi (mes)>0 && atoi (mes)<13){ //Devolvemos el valor true si el caracter introducido es un numero entre el 1 y el 12
+    //Devolvemos el valor true si el caracter introducido es un numero entre el 1 y el 12
+    if (atoi (mes)>0 && atoi (mes)<13){
         mesNum= atoi (mes);
         return true;
     }
-    else
-        for(mesNum = 0; mesNum < 12; mesNum++) //Comparamos el mes introducido con los de la matriz meses, si coinciden devolvemos el valor true
+    else //Comparamos el mes introducido con los de la matriz meses, si coinciden devolvemos el valor true
+        for(mesNum = 0; mesNum < 12; mesNum++) 
             if(!strcmp(meses[mesNum],mes)){
                 mesNum++;
                 return true;
@@ -337,16 +341,18 @@ void visualizadorTipoCuenta(setClientes &variosClientes){
         int j=-1;
         do{
             j++;
-            if (!strcmp(estructurador[j][0].tipoCuenta,variosClientes.Clientes[i].tipoCuenta)) //Si en una fila encontramos el mismo tipo de cuenta que la del cliente que queremos asignar
-                for (int k=0;k<variosClientes.numClientes;k++){                                //situamos al nuevo cliente en la primera posicion vacia de la fila
+            //Si en una fila encontramos el mismo tipo de cuenta que la del cliente que queremos asignar 
+            if (!strcmp(estructurador[j][0].tipoCuenta,variosClientes.Clientes[i].tipoCuenta))
+                for (int k=0;k<variosClientes.numClientes;k++){
+                  //situamos al nuevo cliente en la primera posicion vacia de la fila
                     if(!strcmp (estructurador[j][k].tipoCuenta,"")){
                         strcpy(estructurador[j][k].tipoCuenta,variosClientes.Clientes[i].tipoCuenta);
                         estructurador[j][k].id=i+1;
                         break;
                     }
                 }
-
-            else if(!strcmp(estructurador[j][0].tipoCuenta,"")){  //Si una fila esta vacia, colocamos el cliente en esa posicion
+            //Si una fila esta vacia, colocamos el cliente en esa posicion
+            else if(!strcmp(estructurador[j][0].tipoCuenta,"")){  
                 strcpy(estructurador[j][0].tipoCuenta,variosClientes.Clientes[i].tipoCuenta);
                 estructurador[j][0].id=i+1;
             }
@@ -363,4 +369,3 @@ void visualizadorTipoCuenta(setClientes &variosClientes){
             }
     }
 }
-
