@@ -11,5 +11,9 @@
     void addCliente(setClientes varios);
 
 
+//esto es una prueba
+
+    void addAlcachofas(int number);
+// esto es genial como comer cosas
 
 #endif // UTIL_H_INCLUDED

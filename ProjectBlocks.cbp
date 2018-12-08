@@ -32,12 +32,7 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="cliente.cpp" />
-		<Unit filename="cliente.h" />
-		<Unit filename="estructura.h" />
 		<Unit filename="main.cpp" />
-		<Unit filename="util.cpp" />
-		<Unit filename="util.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
