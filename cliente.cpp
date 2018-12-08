@@ -278,14 +278,18 @@ bool verificadorDNI (setClientes variosClientes, char DNI[]){
     return false;
 }
 bool verificadorvalidezNumCuenta (char numCuenta[]){
-  //Comprobamos que el numero de cuenta introducido sea valido ( tenga 6 letras y despues 4 numeros)
-    for (int i=0;i<6;i++)
-        if ((numCuenta[i]>'A')&& (numCuenta[i] < 'Z'))
-            for (int i=6; i<10;i++)
-                if ((numCuenta[i]>='0')&& (numCuenta[i] <= '9'))
-                    return true;
 
-    return false;
+ 
+  //Comprobamos que el numero de cuenta introducido sea valido ( tenga 6 letras y despues 4 numeros)
+  for (int i=0;i<6;i++)
+    if ( !( (numCuenta[i]>='A')&& (numCuenta[i] <= 'Z') ) )
+      return false;
+  
+  for (int i=6; i<MAXNUMCUENTA-1;i++)
+    if (!esDigito(numCuenta[i]))
+      return false;
+
+    return true;
 }
 bool verificadorExistenciaNumCuenta (setClientes variosClientes, char numCuenta[]){
   //Comparamos el numero de cuenta introducido con los existentes para descartar que ya este almacenado
@@ -365,10 +369,9 @@ bool verificadorAnho(unsigned int anho){  //Comprobamos que el año no sea super
 
 /*
  Se elige un tipo de cuenta inicial y se imprimen por pantalla aquellos usuarios que tengan el mismo
- Cuando se encuentra un tipo de cuenta distinto se guarda para luego, se borran los usuarios que se imprimen
- para no tener que volver a iterar por ellos después. Cuando se llega al final y ya no quedan mas usuarios
- con el primer tipo, se cambia al segundo y se repite el proceso así sucesivamente hasta que ya no queda
- ningun usuario
+ se borran los usuarios que se imprimen para no tener que volver a iterar por ellos después. Cuando se llega al final
+ y ya no quedan mas usuarios con el primer tipo, se cambia al segundo y se repite el proceso así sucesivamente hasta
+ que ya no queda ningun usuario
 */
 void visualizadorTipoCuenta(setClientes clientes)
 {
