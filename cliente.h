@@ -11,7 +11,7 @@ void listarClientes ( setClientes& variosClientes );
 void mostrarCliente ( Cliente elCliente );
 
 //Funcionalidad 2
-void addCliente(setClientes varios);
+void anadirCliente(setClientes& clientes);
 
 //Funcionalidad 3
 void eliminarCliente(setClientes& clientes, int id);
@@ -30,7 +30,7 @@ void visualizadorTipoCuenta(setClientes clientes);
 void ListarDNIErroneos(const setClientes& clientes);
 
 //Funciones de verificacion de datos
-bool verificadorDNI (setClientes variosClientes, char DNI[]);
+bool verificadorDNI (const setClientes& variosClientes, char DNI[]);
 bool verificadorvalidezNumCuenta (char numCuenta[]);
 bool verificadorExistenciaNumCuenta (setClientes variosClientes, char numCuenta[]);
 bool verificadorMes(char mes[], unsigned int &mesNum);

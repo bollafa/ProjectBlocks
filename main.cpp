@@ -78,8 +78,10 @@ int main() {
         switch ( opcion ) {
             case 1: listarClientes ( variosClientes );
                     break;
-            case 2: addCliente( variosClientes );
-                    break;
+
+        case 2: anadirCliente( variosClientes );
+          break;
+
             case 3:
             {
                 unsigned int id;

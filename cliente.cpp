@@ -11,7 +11,7 @@ using namespace std;
 // Definiciones de las funciones necesarias específicas para gestionar clientes
 
 /*
-  PD: Algunas funciones como esDigito y  DNICorrecto que solo estan definidas y declaradas en
+  PD: Algunas funciones como esDigito y  DNICorrecto o mesCadenaANumero que solo estan definidas y declaradas en
   cliente.cpp porque no hace falta que se utilicen en main.cpp o en otro archivo, ademas se busca
   que solo se puedan utilizar en cliente.cpp al ser funciones que dan utilidades específicas. Así no se
   poluciona el espacio de nombres global y un usuario ajeno a la libreria que requiera añadir alguna funcionalidad
@@ -373,7 +373,7 @@ void selectorDeModificacion(setClientes &variosClientes, unsigned int &modificac
 }
     cout << "\nOperacion realizada con exito...\n";
 }
-bool verificadorDNI (setClientes variosClientes, char DNI[]){
+bool verificadorDNI (const setClientes& variosClientes, char DNI[]){
   //Comparamos el DNI introducido con los ya existentes para descartar que ya este almacenado
     for(unsigned int i = 0; i < variosClientes.numClientes; i++)
         if(!strcmp(variosClientes.Clientes[i].DNI,DNI))
@@ -407,24 +407,42 @@ if (!strcmp(tipoCuenta,"ahorro")|| !strcmp(tipoCuenta,"corriente"))
     return true;
 return false;
 }
+unsigned int mesCadenaANumero(char mes[])
+{
+  char meses [ ][ 12 ] = {"enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre",
+                          "octubre", "noviembre", "diciembre"};
+  //Comparamos el mes introducido con los de la matriz meses, si coinciden devolvemos el valor + 1 
+  for(unsigned int i = 0; i < 12; i++)
+    if(!strcmp(meses[i],mes))
+      return i + 1; // para que este en rango [1,12]
 
+  return -1; // numero magico que indica que ha habido un error, -1 como unsigned int causa overflow y se
+  // convierte en el maximo numero representable por un unsigned int, normalmente si int de 32 bits := 2^32-1
+}
 bool verificadorMes(char mes[], unsigned int &mesNum){
 
 //Se permiten dos formas de introducir el mes, mediante un numero de 1 al 12 o en letra
 
-    char meses [ ][ 12 ] = {"enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"};
+   
 
     //Devolvemos el valor true si el caracter introducido es un numero entre el 1 y el 12
     if (atoi (mes)>0 && atoi (mes)<13){
-        mesNum= atoi (mes);
+      // hay que comprobar que el mes no sea: 1junio o abril12 por ejemplo,
+      for(int i = 0; i < strlen(mes); i++)
+        if(!esDigito(mes[i]))
+          return false;
+        mesNum = atoi (mes);
         return true;
     }
-    else //Comparamos el mes introducido con los de la matriz meses, si coinciden devolvemos el valor true
-        for(mesNum = 0; mesNum < 12; mesNum++)
-            if(!strcmp(meses[mesNum],mes)){
-                mesNum++;
-                return true;
-            }
+    else if( (mesNum = mesCadenaANumero(mes) ) != -1 )
+      {
+        return true;
+      }
+      
+       
+      
+     
+    
     return false;
 
 }
@@ -467,6 +485,68 @@ bool verificadorAnho(unsigned int anho){  //Comprobamos que el año no sea super
 }
 
 
+void anadirCliente(setClientes& clientes)
+{
+  Cliente cNuevoCliente;
+  char mes[MAXMES];
+  unsigned int iNumeroMes;
+  if(clientes.numClientes+1 > MAXCLIENTES)
+    {
+      cout << "¡Hay demasiados clientes!\n";
+      return;
+    }
+
+  cout << "---- CREACIÓN DE NUEVO CLIENTE ----\n";
+  leerCadena("Inserte el nombre del cliente: ",cNuevoCliente.nombre);
+
+  leerCadena("Inserte DNI: ", cNuevoCliente.DNI);
+
+  while( !DNICorrecto(cNuevoCliente.DNI) || verificadorDNI(clientes, cNuevoCliente.DNI) )
+    {
+      leerCadena("DNI Erroneo o ya esta registrado, por favor inserte de nuevo el DNI: ", cNuevoCliente.DNI);
+    }
+
+  leerCadena("Inserte domicilio: ", cNuevoCliente.domicilio);
+
+  leerCadena("Inserte número de cuenta: ", cNuevoCliente.numCuenta );
+
+  while( !verificadorvalidezNumCuenta(cNuevoCliente.numCuenta) ||
+         verificadorExistenciaNumCuenta(clientes, cNuevoCliente.numCuenta) )
+    {
+      leerCadena("Numero de cuenta erroneo o ya esta registrado, por favor inserte de nuevo el numero de cuenta: ",
+                 cNuevoCliente.numCuenta);
+    }
+         
+  leerCadena("Inserte el tipo de cuenta ahorro/corriente: ", cNuevoCliente.tipoCuenta);
+
+  while( !verificadorTipoCuenta(cNuevoCliente.tipoCuenta) )
+    {
+      leerCadena("Tipo de cuenta erróneo, por favor inserte de nuevo el tipo de cuenta: ", cNuevoCliente.tipoCuenta);
+    }
+
+  cout << "Inserte fecha de apertura de la cuenta: \n";
+  cNuevoCliente.fecha.dia = leerEntero("Dia: ");
+  leerCadena("Mes: ", mes);
+  cNuevoCliente.fecha.anho = leerEntero("Anho: ");
+
+  
+  verificadorMes(mes,cNuevoCliente.fecha.mes);
+  
+  // NOTA: el orden de los operandos del operador || no se garantiza ni en C ni en C++
+  while(!verificadorMes(mes, cNuevoCliente.fecha.mes) ||
+        !verificadorDia(cNuevoCliente.fecha.dia,cNuevoCliente.fecha.mes, cNuevoCliente.fecha.anho) ||
+        !verificadorAnho(cNuevoCliente.fecha.anho))
+    {
+      cout << "Fecha errónea, por favor inserte fecha de apertura de la cuenta: \n";
+      cNuevoCliente.fecha.dia = leerEntero("Dia: ");
+      leerCadena("Mes: ", mes);
+      cNuevoCliente.fecha.anho = leerEntero("Anho: ");
+      verificadorMes(mes,cNuevoCliente.fecha.mes);
+    }
+  clientes.Clientes[clientes.numClientes] = cNuevoCliente;
+  clientes.numClientes++;
+}
+  
 
 
 

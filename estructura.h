@@ -7,7 +7,7 @@
     # define MAXNOMBRE 50
     # define MAXDOMICILIO 50
     # define MAXTIPOCUENTA 10
-
+    # define MAXMES 11
     struct data {
         unsigned int dia;
         unsigned int mes;
