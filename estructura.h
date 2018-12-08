@@ -1,7 +1,7 @@
 #ifndef ESTRUCTURA_H_INCLUDED
 #define ESTRUCTURA_H_INCLUDED
 
-    # define MAXCLIENTES 200
+    # define MAXCLIENTES 100
     # define MAXDNI 10
     # define MAXNUMCUENTA 11
     # define MAXNOMBRE 50
@@ -27,5 +27,11 @@
         Cliente Clientes[ MAXCLIENTES ];  // Array donde almacenamos todos los clientes
         int numClientes;  // Número total de clientes existentes en el vector clientes
     };
+
+
+struct cuenta{
+char tipoCuenta[MAXTIPOCUENTA];
+int id ;
+};
 
 #endif // ESTRUCTURA_H_INCLUDED
