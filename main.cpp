@@ -81,32 +81,33 @@ int main() {
             case 2: cout << "\nSe debe implementar la funcionalidad";
                     break;
             case 3:
-                {
+            {
                 unsigned int id;
 
                 BuscarPorDNI (variosClientes, id);
-                if(id!=101)
-                    removeClient(variosClientes, id);
+                if(id!=101){
+                    eliminarCliente(variosClientes, id);
+                    cout << "Cliente eliminado con exito\n";
                 }
+            }
                 break;
             case 4:
-              {
+            {
                 char NCuenta[MAXNUMCUENTA];
                 leerCadena("Inserte numero de cuenta: ", NCuenta);
                 BuscarPorNCuenta( variosClientes, NCuenta);
-                  }
+            }
                 break;
             case 5:
-                {
+            {
                 unsigned int id;
 
                 BuscarPorDNI (variosClientes, id);
                 if(id!=101)
                     mostrarCliente(variosClientes.Clientes[id]);
-                }
+            }
                 break;
             case 6:
-
             {
                 unsigned int modificacion;
                 unsigned int id;
@@ -125,11 +126,8 @@ int main() {
                 }
             }
                 break;
-            case 7:
-              visualizadorTipoCuenta(variosClientes);
-              
-
-                break;
+            case 7: visualizadorTipoCuenta(variosClientes);
+                    break;
             case 8: ListarDNIErroneos(variosClientes);
                     break;
             case 9: cout << "\nGracias por utilizar los servicios de GesBANCO.\n";
