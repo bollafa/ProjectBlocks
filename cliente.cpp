@@ -53,12 +53,14 @@ void intercambiar(Cliente& lhs, Cliente& rhs)
   lhs = rhs;
   rhs = backup;
 }
+
 /*
   Eliminar un cliente del medio es lo mismo que ponerlo al final y luego eliminarlo.
    Por tanto, se van intercambiando las posiciones del cliente penúltimo con el último asi consiguiendo
    ir cambiando todos los clientes hasta que quedan todos en su orden original menos el que se quiera eliminar que
    se encuentra al final, posteriormente se elimina sin necesidad de cambiar nada mas.
 */ 
+
 void eliminarCliente( setClientes& clientes, int id)
 {
 
@@ -71,7 +73,6 @@ void eliminarCliente( setClientes& clientes, int id)
     }
 
     clientes.numClientes--;
-
 }
 bool esDigito(const char& c)
 {
@@ -113,7 +114,6 @@ void ListarDNIErroneos(const setClientes& clientes)
         }
     }
 }
-
 
 void BuscarPorNCuenta(const setClientes& clientes, const char numCuenta[MAXNUMCUENTA])
 {
@@ -179,6 +179,7 @@ void selectorDeModificacion(setClientes &variosClientes, unsigned int &modificac
             leerCadena("\nIntroduzca el nuevo nombre: ",variosClientes.Clientes[id].nombre);
 
             break;
+
         case 2:        //Modificamos el valor del DNI siempre que este no este ya almacenado o si se eligela opcion de cancelar.
         {              //Se repite la operacion hasta que sea correcto o se cancele
             char DNI[MAXDNI];
@@ -192,10 +193,12 @@ void selectorDeModificacion(setClientes &variosClientes, unsigned int &modificac
 
         }
             break;
+
         case 3:     //Introducimos un nuevo valor para el array de domicilio
 
             leerCadena("\nIntroduzca el nuevo domicilio: ",variosClientes.Clientes[id].domicilio);
             break;
+
         case 4:     //Pedimos un nuevo numero de cuenta y si este es correcto se modifica. Se repite la operacion hasta que sea correcto o se cancele
             char numCuenta[11];
             do{
@@ -208,10 +211,20 @@ void selectorDeModificacion(setClientes &variosClientes, unsigned int &modificac
             if (numCuenta[0]!='*')
                 strcpy(variosClientes.Clientes[id].numCuenta, numCuenta);
             break;
-        case 5:     //Introducimos un nuevo valor para el array de tipo de cuenta
 
-            leerCadena("\nIntroduzca el nuevo tipo de cuenta: ",variosClientes.Clientes[id].tipoCuenta);
+        case 5:     //Introducimos un nuevo valor para el tipo de cuenta y si es correcto lo modificamos
+            char tipoCuenta[MAXTIPOCUENTA];
+
+            do {
+                leerCadena("\nIntroduzca el nuevo tipo de cuenta (ahorro/corriente) o pulsa '*' para cancelar\n",tipoCuenta);
+                verificadorTipoCuenta(tipoCuenta);
+                if(!verificadorTipoCuenta(tipoCuenta)&& tipoCuenta[0]!='*')
+                    cout << "Tipo de cuenta incorrecto";
+            }while(!verificadorTipoCuenta(tipoCuenta)&& tipoCuenta[0]!='*');
+            if (tipoCuenta[0]!='*')
+                strcpy(variosClientes.Clientes[id].tipoCuenta, tipoCuenta);
             break;
+
         case 6:{        //Pedimos un nuevo numero de cuenta y si este es correcto se modifica. Se repite la operacion hasta que sea correcto o se cancele
             unsigned int dia;
             unsigned int anho;
@@ -264,7 +277,7 @@ bool verificadorDNI (setClientes variosClientes, char DNI[]){
             return true;
     return false;
 }
-bool verificadorvalidezNumCuenta (char numCuenta[]){  
+bool verificadorvalidezNumCuenta (char numCuenta[]){
   //Comprobamos que el numero de cuenta introducido sea valido ( tenga 6 letras y despues 4 numeros)
     for (int i=0;i<6;i++)
         if ((numCuenta[i]>'A')&& (numCuenta[i] < 'Z'))
@@ -274,12 +287,18 @@ bool verificadorvalidezNumCuenta (char numCuenta[]){
 
     return false;
 }
-bool verificadorExistenciaNumCuenta (setClientes variosClientes, char numCuenta[]){ 
+bool verificadorExistenciaNumCuenta (setClientes variosClientes, char numCuenta[]){
   //Comparamos el numero de cuenta introducido con los existentes para descartar que ya este almacenado
-    for(unsigned int i = 0; i < variosClientes.numClientes; i++)                    
+    for(unsigned int i = 0; i < variosClientes.numClientes; i++)
         if(strcmp(variosClientes.Clientes[i].numCuenta,numCuenta) == 0)
             return true;
     return false;
+}
+
+bool verificadorTipoCuenta(char tipoCuenta[]){
+if (!strcmp(tipoCuenta,"ahorro")|| !strcmp(tipoCuenta,"corriente"))
+    return true;
+return false;
 }
 
 bool verificadorMes(char mes[], unsigned int &mesNum){
@@ -294,7 +313,7 @@ bool verificadorMes(char mes[], unsigned int &mesNum){
         return true;
     }
     else //Comparamos el mes introducido con los de la matriz meses, si coinciden devolvemos el valor true
-        for(mesNum = 0; mesNum < 12; mesNum++) 
+        for(mesNum = 0; mesNum < 12; mesNum++)
             if(!strcmp(meses[mesNum],mes)){
                 mesNum++;
                 return true;
@@ -339,44 +358,10 @@ bool verificadorAnho(unsigned int anho){  //Comprobamos que el año no sea super
 
 
 }
-//Para ordenar los clientes en funcion del tipo de cuenta que tienen, almacenamos la id del cliente y su tipo de cuenta en una matriz
-//En las filas estan situados los clientes con un mismo tipo de cuenta y en las columnas los diferentes tipos de cuentas
-/*void visualizadorTipoCuenta(setClientes &variosClientes){
 
-    cuenta estructurador [MAXCLIENTES][MAXCLIENTES]={};
 
-    for (int i=0; i<variosClientes.numClientes; i++){ //Con este bucle asignamos una posicion de la matriz a un cliente por cada repeticion del mismo
-        int j=-1;
-        do{
-            j++;
-            //Si en una fila encontramos el mismo tipo de cuenta que la del cliente que queremos asignar 
-            if (!strcmp(estructurador[j][0].tipoCuenta,variosClientes.Clientes[i].tipoCuenta))
-                for (int k=0;k<variosClientes.numClientes;k++){
-                  //situamos al nuevo cliente en la primera posicion vacia de la fila
-                    if(!strcmp (estructurador[j][k].tipoCuenta,"")){
-                        strcpy(estructurador[j][k].tipoCuenta,variosClientes.Clientes[i].tipoCuenta);
-                        estructurador[j][k].id=i+1;
-                        break;
-                    }
-                }
-            //Si una fila esta vacia, colocamos el cliente en esa posicion
-            else if(!strcmp(estructurador[j][0].tipoCuenta,"")){  
-                strcpy(estructurador[j][0].tipoCuenta,variosClientes.Clientes[i].tipoCuenta);
-                estructurador[j][0].id=i+1;
-            }
 
-        }while (!!strcmp(estructurador[j][0].tipoCuenta,"")&&!!strcmp(estructurador[j][0].tipoCuenta,variosClientes.Clientes[i].tipoCuenta)); //Repetimos el proceso hasta que se le haya asignado un puesto al cliente
-    }
-//Una vez creada la matriz simplemente la recorremos por filas visualizando el cliente con la id guardada en cada posicion de la matriz
-    for (int i =0;i<variosClientes.numClientes;i++){
-        if (estructurador[i][0].id!=0)
-            cout << "Tipo de cuenta: "<< estructurador[i][0].tipoCuenta <<endl << endl;
-        for (int j=0;j<variosClientes.numClientes;j++)
-            if (estructurador[i][j].id!=0){
-                mostrarCliente(variosClientes.Clientes[estructurador[i][j].id-1]);
-            }
-    }
-    }*/
+
 
 /*
  Se elige un tipo de cuenta inicial y se imprimen por pantalla aquellos usuarios que tengan el mismo
@@ -385,21 +370,20 @@ bool verificadorAnho(unsigned int anho){  //Comprobamos que el año no sea super
  con el primer tipo, se cambia al segundo y se repite el proceso así sucesivamente hasta que ya no queda
  ningun usuario
 */
-void visualizadorTipoCuentaAlternativo(setClientes clientes)
+void visualizadorTipoCuenta(setClientes clientes)
 {
+  char tipoCuenta[MAXTIPOCUENTA];
+
   if(clientes.numClientes <= 0)
-    return;
-  
-  char ActualTipoCuenta[MAXTIPOCUENTA];
-  char SiguienteTipoCuenta[MAXTIPOCUENTA];
-  strcpy(ActualTipoCuenta,clientes.Clientes[0].tipoCuenta);
+
+    cout<< "No hay clientes que visualizar";
+
   while(clientes.numClientes > 0)
     {
-      
-      std::cout << "Tipo de cuenta: " << ActualTipoCuenta << "\n";
+      strcpy(tipoCuenta,clientes.Clientes[0].tipoCuenta);
+      cout << "Tipo de cuenta: " << tipoCuenta << "\n";
       for(unsigned int i = 0; i < clientes.numClientes ; i++)
-        {
-          if(!strcmp(ActualTipoCuenta,clientes.Clientes[i].tipoCuenta))
+          if(!strcmp(tipoCuenta,clientes.Clientes[i].tipoCuenta))
             {
               mostrarCliente(clientes.Clientes[i]);
               eliminarCliente(clientes,i);
@@ -407,11 +391,6 @@ void visualizadorTipoCuentaAlternativo(setClientes clientes)
               // al nuevo tamaño.
               i--;
             }
-          else
-            {
-              strcpy(SiguienteTipoCuenta,clientes.Clientes[i].tipoCuenta);
-            }
-        }
-      strcpy(ActualTipoCuenta,SiguienteTipoCuenta);
+
     }
 }

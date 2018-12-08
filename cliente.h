@@ -16,8 +16,6 @@ void addCliente(setClientes varios);
 //Funcionalidad 3
 void eliminarCliente(setClientes& clientes, int id);
 
-//void BuscarPorDNI3(const setClientes& clientes, const char DNI[MAXDNI]);
-
 //Funciones para buscar clientes (Funcionalidad 4 y 5)
 void BuscarPorNCuenta(const setClientes& clientes, const char numCuenta[MAXDNI]);
 void BuscarPorDNI(const setClientes& clientes,unsigned int &id);
@@ -27,8 +25,7 @@ void menuDeModificacion(unsigned int &modificacion);
 void selectorDeModificacion(setClientes &variosClientes, unsigned int &modificacion, unsigned int id);
 
 //Funcionalidad 7
-void visualizadorTipoCuenta(setClientes &variosClientes);
-void visualizadorTipoCuentaAlternativo(setClientes clientes);
+void visualizadorTipoCuenta(setClientes clientes);
 //Funcionalidad 8
 void ListarDNIErroneos(const setClientes& clientes);
 
@@ -39,5 +36,6 @@ bool verificadorExistenciaNumCuenta (setClientes variosClientes, char numCuenta[
 bool verificadorMes(char mes[], unsigned int &mesNum);
 bool verificadorDia(unsigned int dia, unsigned int mesNum,unsigned int anho);
 bool verificadorAnho(unsigned int anho);
+bool verificadorTipoCuenta(char tipoCuenta[]);
 
 #endif // UTIL_H_INCLUDED
