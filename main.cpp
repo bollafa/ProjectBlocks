@@ -78,8 +78,8 @@ int main() {
         switch ( opcion ) {
             case 1: listarClientes ( variosClientes );
                     break;
-            case 2: cout << "\nSe debe implementar la funcionalidad";
-                    break;
+        case 2: anadirCliente( variosClientes );
+          break;
             case 3:
             {
                 unsigned int id;
