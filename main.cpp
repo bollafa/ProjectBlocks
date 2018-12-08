@@ -85,9 +85,11 @@ int main() {
                 unsigned int id;
 
                 BuscarPorDNI (variosClientes, id);
+
                 if(id!=101){
                     eliminarCliente(variosClientes, id);
                     cout << "Cliente eliminado con exito\n";
+
                 }
             }
                 break;
@@ -126,8 +128,10 @@ int main() {
                 }
             }
                 break;
+
             case 7: visualizadorTipoCuenta(variosClientes);
                     break;
+
             case 8: ListarDNIErroneos(variosClientes);
                     break;
             case 9: cout << "\nGracias por utilizar los servicios de GesBANCO.\n";
