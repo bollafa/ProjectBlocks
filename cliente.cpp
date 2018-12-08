@@ -45,6 +45,109 @@ void listarClientes( setClientes& variosClientes )  //Listar todas los Clientes
         }
     }
 }
+void addCliente(setClientes varios)
+{
+    int id;
+    char ahorro, corriente;
+    char DNI[MAXDNI];
+    char nombre [ MAXNOMBRE ];
+    char domicilio [ MAXDOMICILIO ];
+    char numCuenta [ MAXNUMCUENTA ];
+    char tipoCuenta [ MAXTIPOCUENTA ];
+    unsigned int numClientes;
+
+    id=varios.numClientes+1;
+
+    char meses [ ][ 12 ] = {"enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"};
+
+    cout<< "Para crear la cuenta correctamente, tendrá que cubrir los siguientes campos:" << endl;
+
+    if ( varios.numClientes==100)
+        cout<< "La base de datos está llena"; //Si hay 100, que es lo máximo, no deja crear nueva cuenta
+
+    else
+    {
+        for (int i=0; i<50;i++){
+
+    do{
+        leerCadena("\nNombre:",varios.Clientes[id].nombre); //Pido el nombre, y compruebo que si no tiene alguna letra, no es válido.
+
+        if(!((nombre[i]>'A')&& (nombre[i] < 'Z')))
+            cout<<"Nombre no valido";
+
+    }while(((nombre[i]>'A')&& (nombre[i] < 'Z')));
+        }
+
+    do{
+        leerCadena("\nDNI:",varios.Clientes[id].DNI); //Pido el DNI, comprobando si está ya registrado o es correcto.
+
+                    if ((verificadorDNI(varios,DNI))&&(isDNICorrect(vario,DNI)))
+                         cout<<"DNI ya registrado";
+
+    } while ((verificadorDNI(varios,DNI))&&(isDNICorrect(vario,DNI)));
+
+    for (int i=0; i<50;i++){
+
+    do{
+        leerCadena("\nDomicilio:",varios.Clientes[id].domicilio); //Pido el domicilio y al igual que el nombre compruebo que no tenga numeros para que sea correcto
+
+        if(!((domicilio[i]>'A')&& (domicilio[i] < 'Z')))
+            cout<<"Domicilio no valido";
+
+    }while(((domicilio[i]>'A')&& (domicilio[i] < 'Z')));
+        }
+
+    do{
+
+    leerCadena("\nNumero de cuenta:",varios.Clientes[id].numCuenta); //Pido la cuenta y veo que no esté ya o que sea errónea
+
+                if ((verificadorExistenciaNumCuenta(varios,numCuenta)) (verificadorvalidezNumCuenta(varios,numCuenta)))
+                     cout<<"Numero de cuenta ya existente o no valido";
+
+    } while ((verificadorExistenciaNumCuenta(varios,numCuenta)) (verificadorvalidezNumCuenta(varios,numCuenta)));
+
+     do{
+
+        leerCadena("\nTipo de Cuenta: ",varios.Clientes[id].tipoCuenta ); //Pido el tipo de cuenta, q si no es de tipo ahorro o corriente, no es válida.
+
+        if((tipoCuenta!=ahorro)||(tipoCuenta!=corriente))
+            cout<<"Tipo de cuenta no valida";
+
+    }while((tipoCuenta=='ahorro')||(tipoCuenta=='corriente'));
+
+
+        cout<<"Fecha:";
+
+    do{
+
+        leerCadena("\nDia: ",varios.Clientes[id].fecha.dia ); //Pido día, mes y anho y compruebo q sean válidos.
+
+        if(!verificadorDia)
+            cout<<"Dia no valido";
+
+   } while(verificadorDia);
+
+    do{
+
+        leerCadena("\nMes: ",varios.Clientes[id].fecha.mes );
+
+        if(!verificadorMes(varios,numCuenta))
+            cout<<"Tipo de cuenta no valida";
+
+    }while(verificadorMes(varios,numCuenta));
+
+
+    do{
+
+        leerCadena("\nAnho: ",varios.Clientes[id].fecha.anho );
+
+        if(!verificadorAnho(varios,numCuenta))
+            cout<<"anho no valido";
+
+    }while(verificadorAnho(varios,numCuenta));
+
+    }
+}
 // Para intercambiar dos elementos, es decir, dados a y b:  a:= c y b := d, que se intercambien sus valores
 // a := d y b:= c, es necesario crear una copia por la cual copia := c, a:= b, b := copia.
 void intercambiar(Cliente& lhs, Cliente& rhs)
@@ -59,7 +162,7 @@ void intercambiar(Cliente& lhs, Cliente& rhs)
    Por tanto, se van intercambiando las posiciones del cliente penúltimo con el último asi consiguiendo
    ir cambiando todos los clientes hasta que quedan todos en su orden original menos el que se quiera eliminar que
    se encuentra al final, posteriormente se elimina sin necesidad de cambiar nada mas.
-*/ 
+*/
 
 void eliminarCliente( setClientes& clientes, int id)
 {
@@ -279,12 +382,12 @@ bool verificadorDNI (setClientes variosClientes, char DNI[]){
 }
 bool verificadorvalidezNumCuenta (char numCuenta[]){
 
- 
+
   //Comprobamos que el numero de cuenta introducido sea valido ( tenga 6 letras y despues 4 numeros)
   for (int i=0;i<6;i++)
     if ( !( (numCuenta[i]>='A')&& (numCuenta[i] <= 'Z') ) )
       return false;
-  
+
   for (int i=6; i<MAXNUMCUENTA-1;i++)
     if (!esDigito(numCuenta[i]))
       return false;

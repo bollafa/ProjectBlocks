@@ -57,3 +57,25 @@
 	"cliente.h"
 	"util.h"
 
+1543866318 source:c:\users\quique\documents\github\projectblocks\util.cpp
+	<iostream>
+	<cstdlib>
+	"util.h"
+
+1544277201 c:\users\quique\documents\github\projectblocks\util.h
+	<iostream>
+	<cstdlib>
+
+1544287114 source:c:\users\quique\documents\github\projectblocks\main.cpp
+	<iostream>
+	<cstdlib>
+	"string.h"
+	"estructura.h"
+	"cliente.h"
+	"util.h"
+
+1544277201 c:\users\quique\documents\github\projectblocks\estructura.h
+
+1544277234 c:\users\quique\documents\github\projectblocks\cliente.h
+	"estructura.h"
+

@@ -78,7 +78,7 @@ int main() {
         switch ( opcion ) {
             case 1: listarClientes ( variosClientes );
                     break;
-            case 2: cout << "\nSe debe implementar la funcionalidad";
+            case 2: addCliente( variosClientes );
                     break;
             case 3:
             {
