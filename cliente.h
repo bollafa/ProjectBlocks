@@ -14,7 +14,7 @@ void mostrarCliente ( Cliente elCliente );
 void addCliente(setClientes varios);
 
 //Funcionalidad 3
-void removeClient(setClientes& clientes, int id);
+void eliminarCliente(setClientes& clientes, int id);
 
 //void BuscarPorDNI3(const setClientes& clientes, const char DNI[MAXDNI]);
 

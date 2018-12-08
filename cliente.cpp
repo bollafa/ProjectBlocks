@@ -10,7 +10,14 @@ using namespace std;
 
 // Definiciones de las funciones necesarias específicas para gestionar clientes
 
+/*
+  PD: Algunas funciones como esDigito y  DNICorrecto que solo estan definidas y declaradas en
+  cliente.cpp porque no hace falta que se utilicen en main.cpp o en otro archivo, ademas se busca
+  que solo se puedan utilizar en cliente.cpp al ser funciones que dan utilidades específicas. Así no se
+  poluciona el espacio de nombres global y un usuario ajeno a la libreria que requiera añadir alguna funcionalidad
+  desde las ya dadas no necesita preocuparse de su existencia.
 
+*/
 
 
 void mostrarCliente( Cliente elCliente )
@@ -38,35 +45,45 @@ void listarClientes( setClientes& variosClientes )  //Listar todas los Clientes
         }
     }
 }
-void swap(Cliente& lhs, Cliente& rhs)
+// Para intercambiar dos elementos, es decir, dados a y b:  a:= c y b := d, que se intercambien sus valores
+// a := d y b:= c, es necesario crear una copia por la cual copia := c, a:= b, b := copia.
+void intercambiar(Cliente& lhs, Cliente& rhs)
 {
   Cliente backup = lhs;
   lhs = rhs;
   rhs = backup;
 }
-void removeClient( setClientes& clientes, int id)
+/*
+  Eliminar un cliente del medio es lo mismo que ponerlo al final y luego eliminarlo.
+   Por tanto, se van intercambiando las posiciones del cliente penúltimo con el último asi consiguiendo
+   ir cambiando todos los clientes hasta que quedan todos en su orden original menos el que se quiera eliminar que
+   se encuentra al final, posteriormente se elimina sin necesidad de cambiar nada mas.
+*/ 
+void eliminarCliente( setClientes& clientes, int id)
 {
 
     for(int i = clientes.numClientes - 2; i >= id; i--)
     {
       //cout << "i: " << i << '\n';
       //cout << clientes.Clientes[clientes.numClientes - 1].nombre << " << " << clientes.Clientes[i].nombre << '\n';
-      swap(clientes.Clientes[clientes.numClientes - 1],clientes.Clientes[i]);
+      intercambiar(clientes.Clientes[clientes.numClientes - 1],clientes.Clientes[i]);
       //cout << clientes.Clientes[clientes.numClientes - 1].nombre << " << " << clientes.Clientes[i].nombre << '\n';
     }
 
     clientes.numClientes--;
 
 }
-bool isDigit(const char& c)
+bool esDigito(const char& c)
 {
   return (c >= '0') && (c <= '9');
 }
-bool isDNICorrect(const char DNI[MAXDNI])
+bool DNICorrecto(const char DNI[MAXDNI])
 {
   // se define como const porque no va a cambiar la tabla y como static para que no se vuelva a redefinir cada vez que se llame a la funcion
   // la letra del dni esta definido por una tabla y como N % 23 pertenece a [0,22] sabemos que siempre va a dar dentro de la array.
-  static const unsigned char LetterLookUp[23] = { 'T', 'R', 'W', 'A', 'G', 'M', 'Y', 'F', 'P', 'D', 'X',
+  // Se podria haber definido como global pero para no polucionar el espacio de nombres global y como su uso
+  // es específico para esta funcion, se declara aquí.
+  static const unsigned char LetraLookUpTable[23] = { 'T', 'R', 'W', 'A', 'G', 'M', 'Y', 'F', 'P', 'D', 'X',
                                                   'B', 'N', 'J', 'Z', 'S', 'Q', 'V', 'H', 'L', 'C', 'K',
                                                   'E'};
   if(strlen(DNI) != MAXDNI-1)
@@ -75,13 +92,13 @@ bool isDNICorrect(const char DNI[MAXDNI])
   // hay que comprobar que todos los caracteres del dni menos el ultimo sean digitos, pues dnis como '00000000T'
   // son válidos y dnis como '0   0  0T' deberian ser invalidos pero atoi(DNI) daria el mismo resultado := 0.
   for(unsigned int i = 0; i < MAXDNI-2; i++)
-    if(!isDigit(DNI[i]))
+    if(!esDigito(DNI[i]))
       return false;
 
   int iDNI = atoi(DNI);
 
   // el DNI seria correcto si la letra dada coincide con la del algoritmo.
-  return LetterLookUp[iDNI % 23] == DNI[MAXDNI-2];
+  return LetraLookUpTable[iDNI % 23] == DNI[MAXDNI-2];
 }
 void ListarDNIErroneos(const setClientes& clientes)
 {
@@ -90,23 +107,14 @@ void ListarDNIErroneos(const setClientes& clientes)
     cout << "No existen clientes que comprobar!\n";
   for(unsigned int i = 0; i < clientes.numClientes; i++)
     {
-      if(!isDNICorrect(clientes.Clientes[i].DNI))
+      if(!DNICorrecto(clientes.Clientes[i].DNI))
         {
           mostrarCliente(clientes.Clientes[i]);
         }
     }
 }
 
-/*void BuscarPorDNI3(const setClientes& clientes, const char DNI[MAXDNI])
-{
-  for(unsigned int i = 0; i < clientes.numClientes; i++)
-    {
-      if(strcmp(clientes.Clientes[i].DNI,DNI) == 0)
-        mostrarCliente(clientes.Clientes[i]);
-    }
 
-}
-*/
 void BuscarPorNCuenta(const setClientes& clientes, const char numCuenta[MAXNUMCUENTA])
 {
     bool bExisteCliente=false;
@@ -142,7 +150,7 @@ void menuDeModificacion(unsigned int &modificacion) //Menu con los datos que se 
 do {
     cout << "\n1. Nombre";
     cout << "\n2. DNI";
-    cout << "\n3. Domiciio";
+    cout << "\n3. Domicilio";
     cout << "\n4. Numero de cuenta";
     cout << "\n5. Tipo de cuenta";
     cout << "\n6. Fecha de creacion de la cuenta";
@@ -333,7 +341,7 @@ bool verificadorAnho(unsigned int anho){  //Comprobamos que el año no sea super
 }
 //Para ordenar los clientes en funcion del tipo de cuenta que tienen, almacenamos la id del cliente y su tipo de cuenta en una matriz
 //En las filas estan situados los clientes con un mismo tipo de cuenta y en las columnas los diferentes tipos de cuentas
-void visualizadorTipoCuenta(setClientes &variosClientes){
+/*void visualizadorTipoCuenta(setClientes &variosClientes){
 
     cuenta estructurador [MAXCLIENTES][MAXCLIENTES]={};
 
@@ -368,35 +376,42 @@ void visualizadorTipoCuenta(setClientes &variosClientes){
                 mostrarCliente(variosClientes.Clientes[estructurador[i][j].id-1]);
             }
     }
-}
+    }*/
 
+/*
+ Se elige un tipo de cuenta inicial y se imprimen por pantalla aquellos usuarios que tengan el mismo
+ Cuando se encuentra un tipo de cuenta distinto se guarda para luego, se borran los usuarios que se imprimen
+ para no tener que volver a iterar por ellos después. Cuando se llega al final y ya no quedan mas usuarios
+ con el primer tipo, se cambia al segundo y se repite el proceso así sucesivamente hasta que ya no queda
+ ningun usuario
+*/
 void visualizadorTipoCuentaAlternativo(setClientes clientes)
 {
   if(clientes.numClientes <= 0)
     return;
   
-  char CurrentTipoCuenta[MAXTIPOCUENTA];
-  char NextTipoCuenta[MAXTIPOCUENTA];
-  strcpy(CurrentTipoCuenta,clientes.Clientes[0].tipoCuenta);
+  char ActualTipoCuenta[MAXTIPOCUENTA];
+  char SiguienteTipoCuenta[MAXTIPOCUENTA];
+  strcpy(ActualTipoCuenta,clientes.Clientes[0].tipoCuenta);
   while(clientes.numClientes > 0)
     {
       
-      std::cout << "Tipo de cuenta: " << CurrentTipoCuenta << "\n";
+      std::cout << "Tipo de cuenta: " << ActualTipoCuenta << "\n";
       for(unsigned int i = 0; i < clientes.numClientes ; i++)
         {
-          if(!strcmp(CurrentTipoCuenta,clientes.Clientes[i].tipoCuenta))
+          if(!strcmp(ActualTipoCuenta,clientes.Clientes[i].tipoCuenta))
             {
               mostrarCliente(clientes.Clientes[i]);
-              removeClient(clientes,i);
+              eliminarCliente(clientes,i);
               // al borrar en la array hay que restarle al indice para ajustarse
               // al nuevo tamaño.
               i--;
             }
           else
             {
-              strcpy(NextTipoCuenta,clientes.Clientes[i].tipoCuenta);
+              strcpy(SiguienteTipoCuenta,clientes.Clientes[i].tipoCuenta);
             }
         }
-      strcpy(CurrentTipoCuenta,NextTipoCuenta);
+      strcpy(ActualTipoCuenta,SiguienteTipoCuenta);
     }
 }

@@ -86,7 +86,7 @@ int main() {
 
                 BuscarPorDNI (variosClientes, id);
                 if(id!=101)
-                    removeClient(variosClientes, id);
+                    eliminarCliente(variosClientes, id);
                 }
                 break;
             case 4:
@@ -126,7 +126,7 @@ int main() {
             }
                 break;
             case 7:
-              visualizadorTipoCuenta(variosClientes);
+              visualizadorTipoCuentaAlternativo(variosClientes);
               
 
                 break;
