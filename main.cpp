@@ -32,7 +32,6 @@ int main() {
 
 
     strcpy(variosClientes.Clientes[1].nombre, "Cosme Pazos");
-    //variosClientes.Clientes[1].nombre = "Cosme Pazos00000000000000000000000000000000000000";
     strcpy(variosClientes.Clientes[1].DNI, "33271682C");
     strcpy(variosClientes.Clientes[1].domicilio, "Retiro,34");
     strcpy(variosClientes.Clientes[1].numCuenta, "BSCHES1234");
@@ -79,15 +78,13 @@ int main() {
             case 1: listarClientes ( variosClientes );
                     break;
 
-        case 2: anadirCliente( variosClientes );
-          break;
-
+            case 2: anadirCliente( variosClientes );
+                    break;
             case 3:
             {
                 unsigned int id;
 
                 BuscarPorDNI (variosClientes, id);
-
                 if(id!=101){
                     eliminarCliente(variosClientes, id);
                     cout << "Cliente eliminado con exito\n";
@@ -130,10 +127,8 @@ int main() {
                 }
             }
                 break;
-
             case 7: visualizadorTipoCuenta(variosClientes);
                     break;
-
             case 8: ListarDNIErroneos(variosClientes);
                     break;
             case 9: cout << "\nGracias por utilizar los servicios de GesBANCO.\n";
