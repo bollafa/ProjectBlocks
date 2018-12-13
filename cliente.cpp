@@ -47,11 +47,11 @@ void listarClientes( setClientes& variosClientes ){
 
 //Funcionalidad 2
 void anadirCliente(setClientes& clientes){
-  Cliente cNuevoCliente;
+  Cliente cNuevoCliente; //Creamos un nuevo dato de tipo cliente donde guardar los nuevos datos mientras estos aun no se verificaron
   char mes[MAXMES];
   char continuar[2];
 
-  if(clientes.numClientes+1 > MAXCLIENTES)
+  if(clientes.numClientes+1 > MAXCLIENTES) //Comprobamos que no se haya llegado al limite de clientes
     {
       cout << "¡Hay demasiados clientes!\n";
       return;
@@ -109,8 +109,11 @@ void anadirCliente(setClientes& clientes){
   leerCadena("Mes: ", mes);
   cNuevoCliente.fecha.anho = leerEntero("Anho: ");
   verificadorMes(mes,cNuevoCliente.fecha.mes);
-
-  // NOTA: el orden de los operandos del operador || no se garantiza ni en C ni en C++
+  /*
+    Si el dato mes es correcto (tanto en numero como el letra), lo guarda en numero en el apartado
+    correcpondiente de cNuevoClienteesto. Esto es necesario hacerlo antes del while porque
+    el orden de los operandos del operador || no se garantiza ni en C ni en C++
+  */
   while(!verificadorMes(mes, cNuevoCliente.fecha.mes) ||
         !verificadorDia(cNuevoCliente.fecha.dia,cNuevoCliente.fecha.mes, cNuevoCliente.fecha.anho) ||
         !verificadorAnho(cNuevoCliente.fecha.anho))
@@ -128,6 +131,7 @@ void anadirCliente(setClientes& clientes){
         return;
       }
     }
+  //Si la operacion no se cancela y todos los datos introducidos son validos los datos nuevos se guardan en el array de clientes
   clientes.Clientes[clientes.numClientes] = cNuevoCliente;
   cout << "\nNuevo cliente creado:\n";
   mostrarCliente(cNuevoCliente);
@@ -182,19 +186,24 @@ void BuscarPorDNI(const setClientes& variosClientes, unsigned int &id){
     char DNI[MAXDNI];
 
     id=MAXCLIENTES+1;
+    if(variosClientes.numClientes==0){
+        cout << "\nOperacion denegada. No hay ningun cliente guardado en la base de datos\n";
+        return;
+    }
     do {
         leerCadena("\nInserte DNI o pulse '*' para cancelar\n", DNI); //Se pide el DNI
         if(DNI[0] == '*'){
             cout << "Operacion cancelada...\n";
-            return;
+            return; //Si se pulsa '*' se termina la ejecucion de la funcion
         }
-        for(unsigned int i = 0; i < variosClientes.numClientes; i++) //Se compara con los DNI existentes y le asocia
+        //Se compara con los DNI existentes y se guarda la posicion en el array del cliente con el que coincida
+        for(unsigned int i = 0; i < variosClientes.numClientes; i++)
             if(!strcmp(variosClientes.Clientes[i].DNI,DNI))
                 id=i;
         if (id==MAXCLIENTES+1)
                 cout << "El DNI no se encuentra en la base de datos\n\n";
 
-    } while (id==MAXCLIENTES+1);
+    } while (id==MAXCLIENTES+1); // Si no se pulsa '*' se pide un DNI hasta que este coincida con el de algun cliente
 }
 
 //Funcionalidad 6
@@ -307,7 +316,7 @@ void selectorDeModificacion(setClientes &variosClientes, unsigned int &modificac
                     }
             }while(!verificadorMes(mes, mesNum)|| !verificadorDia(dia,mesNum, anho) || !verificadorAnho(anho));
 
-                if(continuar[0]!='*'){
+                if(continuar[0]!='*'){ // Si se cumplen las condiciones y no se pulsa '*' se modifican los datos del cliente
                     variosClientes.Clientes[id].fecha.mes=mesNum;
                     variosClientes.Clientes[id].fecha.dia=dia;
                     variosClientes.Clientes[id].fecha.anho=anho;
@@ -338,7 +347,7 @@ void visualizadorTipoCuenta(setClientes clientes){
 
   if(clientes.numClientes <= 0)
 
-    cout<< "\nNo hay clientes que visualizar";
+    cout<< "\nNo hay clientes que visualizar\n";
 
   while(clientes.numClientes > 0)
     {
@@ -384,16 +393,23 @@ bool DNICorrecto(const char DNI[MAXDNI]){
   return LetraLookUpTable[iDNI % 23] == DNI[MAXDNI-2];
 }
 void ListarDNIErroneos(const setClientes& clientes){
-  cout << "\nUsuarios con DNI's erroneos: \n";
-  if(clientes.numClientes == 0)
-    cout << "No existen clientes que comprobar!\n";
+  bool DNIErroneos=false;
+  if(clientes.numClientes == 0){
+    cout << "\nNo existen clientes que comprobar!\n";
+    return;
+  }
   for(unsigned int i = 0; i < clientes.numClientes; i++)
     {
       if(!DNICorrecto(clientes.Clientes[i].DNI))
         {
+          if (!DNIErroneos)
+            cout << "\nUsuarios con DNI erroneos: \n";
           mostrarCliente(clientes.Clientes[i]);
+          DNIErroneos=true;
         }
     }
+  if (!DNIErroneos)
+    cout << "\nTodos los DNI son correctos\n";
 }
 
 //Funciones de verificacion de datos

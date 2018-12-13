@@ -95,6 +95,10 @@ int main() {
             case 4:
             {
                 char NCuenta[MAXNUMCUENTA];
+                if (variosClientes.numClientes==0){
+                    cout << "\nOperacion denegada. No hay ningun cliente guardado en la base de datos\n";
+                    break;
+                }
                 leerCadena("Inserte numero de cuenta: ", NCuenta);
                 BuscarPorNCuenta( variosClientes, NCuenta);
             }
