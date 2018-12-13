@@ -11,7 +11,7 @@ using namespace std;
 // Definiciones de las funciones necesarias específicas para gestionar clientes
 
 /*
-  PD: Algunas funciones como esDigito y  DNICorrecto o mesCadenaANumero que solo estan definidas y declaradas en
+  PD: Algunas funciones como esDigito y  DNICorrecto solo estan definidas y declaradas en
   cliente.cpp porque no hace falta que se utilicen en main.cpp o en otro archivo, ademas se busca
   que solo se puedan utilizar en cliente.cpp al ser funciones que dan utilidades específicas. Así no se
   poluciona el espacio de nombres global y un usuario ajeno a la libreria que requiera añadir alguna funcionalidad
@@ -58,14 +58,14 @@ void anadirCliente(setClientes& clientes){
     }
 
   cout << "\n---- CREACION DE NUEVO CLIENTE ----\n";
-  leerCadena("\nInserte el nombre del cliente o pulse '*' salir: ",cNuevoCliente.nombre);
+  leerCadena("\nInserte el nombre del cliente o pulse '*' para salir: ",cNuevoCliente.nombre);
   if (cNuevoCliente.nombre[0]=='*'){
     cout << "Operacion cancelada...\n";
     return;
   }
 
 
-  leerCadena("Inserte DNI o pulse * para salir: ", cNuevoCliente.DNI);
+  leerCadena("Inserte el DNI o pulse '*' para salir: ", cNuevoCliente.DNI);
   while(verificadorDNI(clientes, cNuevoCliente.DNI)&& cNuevoCliente.DNI[0]!='*' )
     {
       leerCadena("DNI ya esta registrado, por favor inserte de nuevo el DNI o pulse '*' para salir: ", cNuevoCliente.DNI);
@@ -75,13 +75,13 @@ void anadirCliente(setClientes& clientes){
     return;
   }
 
-  leerCadena("Inserte domicilio o pulse '*' para salir: ", cNuevoCliente.domicilio);
+  leerCadena("Inserte el domicilio o pulse '*' para salir: ", cNuevoCliente.domicilio);
   if (cNuevoCliente.domicilio[0]=='*'){
     cout << "Operacion cancelada...\n";
     return;
   }
 
-  leerCadena("Inserte numero de cuenta o pulse '*' para salir: ", cNuevoCliente.numCuenta );
+  leerCadena("Inserte el numero de cuenta o pulse '*' para salir: ", cNuevoCliente.numCuenta );
   while(( !verificadorvalidezNumCuenta(cNuevoCliente.numCuenta) ||
          verificadorExistenciaNumCuenta(clientes, cNuevoCliente.numCuenta)) && cNuevoCliente.numCuenta[0]!='*' )
     {
@@ -104,7 +104,7 @@ void anadirCliente(setClientes& clientes){
     return;
   }
 
-  cout << "Inserte fecha de apertura de la cuenta: \n";
+  cout << "Inserte la fecha de apertura de la cuenta: \n";
   cNuevoCliente.fecha.dia = leerEntero("Dia: ");
   leerCadena("Mes: ", mes);
   cNuevoCliente.fecha.anho = leerEntero("Anho: ");
@@ -201,7 +201,7 @@ void BuscarPorDNI(const setClientes& variosClientes, unsigned int &id){
             if(!strcmp(variosClientes.Clientes[i].DNI,DNI))
                 id=i;
         if (id==MAXCLIENTES+1)
-                cout << "El DNI no se encuentra en la base de datos\n\n";
+                cout << "El DNI no se encuentra en la base de datos\n";
 
     } while (id==MAXCLIENTES+1); // Si no se pulsa '*' se pide un DNI hasta que este coincida con el de algun cliente
 }
@@ -217,7 +217,7 @@ do {
     cout << "\n4. Numero de cuenta";
     cout << "\n5. Tipo de cuenta";
     cout << "\n6. Fecha de creacion de la cuenta";
-    cout << "\n7. Salir\n";
+    cout << "\n7. Volver al menu del inicial sin modificar ningun dato\n";
 
     modificacion= leerEntero("\nQue dato desea modificar?\n"); //Introducimos la variable que nos permitira realizar los cambios
 
@@ -296,7 +296,7 @@ void selectorDeModificacion(setClientes &variosClientes, unsigned int &modificac
 
             cout << "\nIntroduzca la nueva fecha\n";
             do {
-                dia= leerEntero("Dia: ");
+                dia= leerEntero("\nDia: ");
                 leerCadena("Mes: ", mes);
                 anho= leerEntero("Anho: ");
 
@@ -309,7 +309,7 @@ void selectorDeModificacion(setClientes &variosClientes, unsigned int &modificac
                     cout << "El anho de creacion de la cuenta tiene que ser un numero y no puede ser superior al anho actual\n";
 
                 if (!verificadorMes(mes, mesNum)|| !verificadorDia(dia,mesNum, anho) || !verificadorAnho(anho)){
-                    leerCadena("Pulse '*' para salir o otra tecla para introducir una fecha valida\n",continuar);
+                    leerCadena("\nPulse '*' para salir o otra tecla para introducir una fecha valida\n",continuar);
                     if (continuar[0]=='*')
                         break;
 
@@ -429,7 +429,7 @@ bool verificadorvalidezNumCuenta (char numCuenta[]){
       return false;
 
   for (int i=6; i<MAXNUMCUENTA-1;i++)
-    if (!((numCuenta[i] >= '0') && (numCuenta[i] <= '9')))
+    if (!esDigito(numCuenta[i]))
       return false;
 
     return true;
@@ -446,20 +446,11 @@ if (!strcmp(tipoCuenta,"ahorro")|| !strcmp(tipoCuenta,"corriente"))
     return true;
 return false;
 }
-unsigned int mesCadenaANumero(char mes[]){
-  char meses [ ][ 12 ] = {"enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre",
-                          "octubre", "noviembre", "diciembre"};
-  //Comparamos el mes introducido con los de la matriz meses, si coinciden devolvemos el valor + 1
-  for(unsigned int i = 0; i < 12; i++)
-    if(!strcmp(meses[i],mes))
-      return i + 1; // para que este en rango [1,12]
-
-  return -1; // numero magico que indica que ha habido un error, -1 como unsigned int causa overflow y se
-  // convierte en el maximo numero representable por un unsigned int, normalmente si int de 32 bits := 2^32-1
-}
 bool verificadorMes(char mes[], unsigned int &mesNum){
 
 //Se permiten dos formas de introducir el mes, mediante un numero de 1 al 12 o en letra
+    char meses [ ][ 12 ] = {"enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre",
+                            "octubre", "noviembre", "diciembre"};
 
     //Devolvemos el valor true si el caracter introducido es un numero entre el 1 y el 12
     if (atoi (mes)>0 && atoi (mes)<13){
@@ -470,10 +461,12 @@ bool verificadorMes(char mes[], unsigned int &mesNum){
         mesNum = atoi (mes);
         return true;
     }
-    else if( (mesNum = mesCadenaANumero(mes) ) != -1 )
-      {
-        return true;
-      }
+    else //Comparamos el mes introducido con los de la matriz meses, si coinciden devolvemos el valor true, si no devolvemos false
+        for(unsigned int i = 0; i < 12; i++)
+            if(!strcmp(meses[i],mes)){
+                mesNum = i+1; // Asignamos a la variable el valor correcto para el mes en rango [1,12]
+                return true;
+            }
     return false;
 }
 bool verificadorDia(unsigned int dia, unsigned int mesNum, unsigned int anho){
